@@ -1,21 +1,11 @@
-import React, { useState } from "react";
+import { useLandingPage } from "../hooks/useLandingPage";
 
 function LandingPage() {
-  const [role, setRole] = useState("");
-
-  const handleLogin = () => {
-    if (!role) {
-      alert("Please select your role");
-      return;
-    }
-    // later you can redirect based on role
-    // navigate(`/login?role=${role}`);
-  };
+  const { handleContinue, setRole, role } = useLandingPage();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-360px bg-white p-8 rounded-xl shadow-lg text-center space-y-6">
-
         {/* Logo */}
         <h1 className="text-3xl font-extrabold tracking-tight">
           <span className="text-red-600">Sit</span>
@@ -44,12 +34,11 @@ function LandingPage() {
 
         {/* Login Button */}
         <button
-          onClick={handleLogin}
+          onClick={handleContinue}
           className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
         >
           Login
         </button>
-
       </div>
     </div>
   );
