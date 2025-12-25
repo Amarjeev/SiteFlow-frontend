@@ -63,9 +63,12 @@ function AdminLoginForm() {
           />
         </div>
         <div className="flex items-center justify-between">
-          <a href="#" className="text-sm text-blue-500 hover:underline">
+          <Link
+            to={"/forgot-password"}
+            className="text-sm text-blue-500 hover:underline"
+          >
             Forgot password?
-          </a>
+          </Link>
         </div>
         <button
           disabled={loading}

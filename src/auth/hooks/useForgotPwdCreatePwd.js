@@ -1,0 +1,66 @@
+import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { resetPasswordValidation } from '../validations/resetPassword.validation'
+import { forgotPwdCreatePwdApi } from '../../api/auth/forgotPassword.api'
+import { showSuccess } from '../../utils/toast'
+
+export const useForgotPwdCreatePwd = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const email = location.state?.email
+  const role = location.state?.role
+
+  const [password, setPassword] = useState('')
+  const [reEnterPassword, setReEnterPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  // Protect route
+  useEffect(() => {
+    if (!email || !role) {
+      navigate('/forgot-password', { replace: true })
+    }
+  }, [email, role, navigate])
+
+  const handleSubmitPwd = async e => {
+    e.preventDefault()
+
+    if (!resetPasswordValidation(email, password, reEnterPassword, role)) return
+
+    try {
+      setLoading(true)
+      setErrorMessage('')
+
+      const isSuccess = await forgotPwdCreatePwdApi({
+        email: email?.trim().toLowerCase(),
+        role: role?.toLowerCase(),
+        password: password?.trim()
+      })
+
+      if (isSuccess) {
+        showSuccess('Password reset successful. Redirecting to login...')
+        setShowSuccessMessage(true)
+        setTimeout(() => {
+          navigate('/login', { replace: true })
+        }, 4000)
+      }
+    } catch (error) {
+      setErrorMessage(error.message || 'OTP sending failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return {
+    password,
+    setPassword,
+    reEnterPassword,
+    setReEnterPassword,
+    handleSubmitPwd,
+    loading,
+    errorMessage,
+    showSuccessMessage
+  }
+}

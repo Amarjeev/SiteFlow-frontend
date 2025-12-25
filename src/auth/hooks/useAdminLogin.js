@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { adminLoginApi } from '../../api/auth/adminLogin.api'
 import { showError, showSuccess } from '../../utils/toast'
+import { useNavigate } from 'react-router-dom'
 
 export const useAdminLogin = () => {
   const [errorMessage, setErrorMessage] = useState(null)
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -23,7 +25,7 @@ export const useAdminLogin = () => {
 
       if (isSuccess) {
         showSuccess('Login successful')
-        // navigate("/dashboard")
+        navigate('/admin/home', { replace: true })
         setEmail('')
         setPassword('')
         setErrorMessage('')
@@ -42,6 +44,6 @@ export const useAdminLogin = () => {
     setEmail,
     setPassword,
     handleSubmit,
-    loading,
+    loading
   }
 }

@@ -102,9 +102,12 @@ function Navbar() {
             <option value="labour">Labour</option>
           </select>
 
-          <button
-            // onClick={handleLogin}
+          <Link
             disabled={!userRole}
+            to={userRole ? "/login" : "#"}
+            onClick={(e) => {
+              if (!userRole) e.preventDefault();
+            }}
             className={`w-full py-2 rounded-lg border text-sm
               ${
                 userRole
@@ -114,11 +117,14 @@ function Navbar() {
             `}
           >
             Login
-          </button>
+          </Link>
 
-          <button
-            // onClick={handleSignup}
+          <Link
             disabled={!userRole}
+            to={userRole ? "/signup" : "#"}
+            onClick={(e) => {
+              if (!userRole) e.preventDefault();
+            }}
             className={`w-full py-2 rounded-lg text-sm
               ${
                 userRole
@@ -128,7 +134,7 @@ function Navbar() {
             `}
           >
             Signup
-          </button>
+          </Link>
         </div>
       )}
     </nav>

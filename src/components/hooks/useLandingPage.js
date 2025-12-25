@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { showError } from '../../utils/toast'
 
 export const useLandingPage = () => {
   const navigate = useNavigate()
@@ -7,7 +8,7 @@ export const useLandingPage = () => {
 
   const handleContinue = () => {
     if (!role) {
-      alert('Please select your role')
+      showError('Please select your role')
       return
     }
 
