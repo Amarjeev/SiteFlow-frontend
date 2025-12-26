@@ -1,11 +1,11 @@
-import React from "react";
 import CreateProjectForm from "../components/CreateProjectForm";
 import ProjectNotification from "../components/ProjectNotification";
+import AdminNavbar from "../../../layouts/admin/AdminNavbar";
 
 function CreateProjectPage() {
   return (
     <div>
-      <ProjectNotification />
+      <AdminNavbar/>
       <CreateProjectForm />
     </div>
   );

@@ -8,6 +8,8 @@ import ForgotPwdEmailForm from "./auth/components/ForgotPwdEmailForm.jsx";
 import OtpForm from "./auth/components/ForgotPwdOtpForm.jsx";
 import ResetPasswordForm from "./auth/components/ResetPasswordForm.jsx";
 import { useAuthRedirect } from "./auth/hooks/useAuthRedirect.js";
+import CreateProjectPage from "./features/admin/pages/CreateProjectPage.jsx";
+import ProjectsPage from "./features/admin/pages/ProjectsPage.jsx";
 
 function App() {
   useAuthRedirect();
@@ -20,6 +22,8 @@ function App() {
       <Route path="/forgot-password/otp" element={<OtpForm />} />
       <Route path="/forgot-password/reset" element={<ResetPasswordForm />} />
       <Route path="/admin/home" element={<AdminDashboard />} />
+      <Route path="/admin/create-project" element={<CreateProjectPage />} />
+      <Route path="/admin/projects" element={<ProjectsPage />} />
     </Routes>
   );
 }

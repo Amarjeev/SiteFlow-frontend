@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const useNavbar = () => {
-  const [userRole, setUserRole] = useState(
+  const navigate = useNavigate()
+    const [menuOpen, setMenuOpen] = useState(false);
+  const [userRole, _setUserRole] = useState(
     () => sessionStorage.getItem('userRole') || ''
   )
 
   useEffect(() => {
-    sessionStorage.setItem('userRole', userRole)
-  }, [userRole])
-
-  useEffect(() => {
     const roleExist = sessionStorage.getItem('userRole')
     if (!roleExist) {
-      alert('Please select role')
+      navigate('/')
       return
     }
-  }, [])
+  }, [navigate])
 
-  return { userRole, setUserRole }
+   const handleExit = () => {
+    sessionStorage.removeItem("userRole");
+
+    navigate("/");
+  };
+
+  return { userRole ,handleExit,menuOpen, setMenuOpen}
 }

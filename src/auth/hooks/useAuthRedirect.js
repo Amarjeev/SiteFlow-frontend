@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { api } from '../../config/api.config'
+import  api  from '../../config/api.config'
 
 export const useAuthRedirect = () => {
   const navigate = useNavigate()

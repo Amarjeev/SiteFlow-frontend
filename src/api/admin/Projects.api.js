@@ -1,0 +1,17 @@
+import api from '../../config/api.config'
+
+export const createProjectApi = async payload => {
+  const response = await api.post('/admin/project/create-projects', payload)
+
+  return response.data.success === true
+}
+
+
+export const fetchProjectApi = async payload => {
+  const response = await api.post(
+    '/admin/project/fetch-projects',
+    payload
+  )
+
+  return response.data
+}

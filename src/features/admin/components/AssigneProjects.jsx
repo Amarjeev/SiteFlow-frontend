@@ -25,6 +25,30 @@ function AssignProjects() {
       siteLocation: "Kakkanad, Kochi",
       status: "Completed",
     },
+    {
+      projectId: "PROJw-001",
+      projectName: "IT Park Phase 2",
+      siteLocation: "Technopark, Trivandrum",
+      status: "Ongoing",
+    },
+    {
+      projectId: "PROJe-002",
+      projectName: "Residential Tower",
+      siteLocation: "Kakkanad, Kochi",
+      status: "Completed",
+    },
+    {
+      projectId: "PROJt-001",
+      projectName: "IT Park Phase 2",
+      siteLocation: "Technopark, Trivandrum",
+      status: "Ongoing",
+    },
+    {
+      projectId: "PROJj-002",
+      projectName: "Residential Tower",
+      siteLocation: "Kakkanad, Kochi",
+      status: "Completed",
+    },
   ];
 
   const handleStaffBlur = () => {
