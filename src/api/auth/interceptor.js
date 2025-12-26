@@ -20,8 +20,8 @@ api.interceptors.response.use(
         // Retry original request
         return api(originalRequest)
       } catch {
-        // Refresh token expired → login again
-        window.location.href = '/login'
+        // Refresh token expired
+        window.location.href = '/'
       }
     }
 

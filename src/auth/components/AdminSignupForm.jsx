@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import Navbar from "../../components/common/Navbar";
 import { useAdminSignup } from "../hooks/useAdminSignup";
+import SocialAuthButtons from "../../components/common/SocialAuthButtons";
 
 function AdminSignupForm() {
   const {
@@ -102,6 +103,8 @@ function AdminSignupForm() {
             Register
           </button>
         </form>
+
+        <SocialAuthButtons />
 
         <p className="text-sm text-center text-gray-500 mt-6">
           Already have an account?{" "}
