@@ -10,6 +10,8 @@ import ResetPasswordForm from "./auth/components/ResetPasswordForm.jsx";
 import { useAuthRedirect } from "./auth/hooks/useAuthRedirect.js";
 import CreateProjectPage from "./features/admin/pages/CreateProjectPage.jsx";
 import ProjectsPage from "./features/admin/pages/ProjectsPage.jsx";
+import CreateStaffProfile from "./features/admin/components/CreateStaffProfile.jsx";
+import AssignProjects from "./features/admin/components/AssigneProjects.jsx";
 
 function App() {
   useAuthRedirect();
@@ -24,6 +26,11 @@ function App() {
       <Route path="/admin/home" element={<AdminDashboard />} />
       <Route path="/admin/create-project" element={<CreateProjectPage />} />
       <Route path="/admin/projects" element={<ProjectsPage />} />
+      <Route
+        path="/admin/create/staff-profile"
+        element={<CreateStaffProfile />}
+      />
+      <Route path="/admin/projects/assign" element={<AssignProjects />} />
     </Routes>
   );
 }

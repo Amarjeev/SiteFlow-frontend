@@ -47,7 +47,7 @@ export const useFetchProjects = () => {
     [projectId, projectStatus, startDate]
   );
 
-  // 🔥 Filter change
+  //  Filter change
   useEffect(() => {
     setProjects([]);
     setPage(1);

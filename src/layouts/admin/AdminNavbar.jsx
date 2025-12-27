@@ -8,8 +8,8 @@ function AdminNavbar() {
   const navLinks = [
     ["Projects", "/admin/projects", "📁"],
     ["Create Project", "/admin/create-project","➕"],
-    ["Add Staff", "/admin/staff/create", "👤"],
-    ["Project Assignment", "/admin/assign", "🧩"],
+    ["Add Staff", "/admin/create/staff-profile", "👤"],
+    ["Project Assignment", "/admin/projects/assign", "🧩"],
     ["Staff Profiles", "/admin/staff", "🗂️"],
     ["Labour Profiles", "/admin/labours", "🧑‍🔧"],
   ];
