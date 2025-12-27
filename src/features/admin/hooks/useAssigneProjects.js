@@ -26,7 +26,7 @@ export const useAssigneProjects = () => {
   const getErrorMessage = error =>
     error?.response?.data?.message || 'Something went wrong'
 
-  const isValidStaffId = id => id?.trim().length === 19
+  const isValidStaffId = id => id?.trim().length === 20
   const isValidProjectId = id => id?.trim().length === 17
 
   const resetForm = () => {
@@ -65,6 +65,7 @@ export const useAssigneProjects = () => {
   }
 
   const handleAssignProjectToStaff = async payload => {
+         
     try {
       const isSuccess = await assignProjectToStaffsApi(payload)
 
@@ -113,6 +114,7 @@ export const useAssigneProjects = () => {
       staffDetails &&
       projectDetails
     ) {
+
       handleAssignProjectToStaff({
         userId: staffId.trim(),
         projectId: projectId.trim()
@@ -134,7 +136,7 @@ export const useAssigneProjects = () => {
         projectId: projectId.trim()
       })
     }
-  })
+  },[])
 
   return {
     staffId,

@@ -50,8 +50,8 @@ function AssignProjects() {
               type="text"
               value={staffId}
               onChange={(e) => setStaffId(e.target.value.toUpperCase())}
-              minLength={19}
-              maxLength={19}
+              minLength={20}
+              maxLength={20}
               disabled={isLocked}
               className={`
     w-full rounded-md border px-4 py-2 text-sm

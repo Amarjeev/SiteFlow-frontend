@@ -1,7 +1,15 @@
 import { showError } from '../../../utils/toast'
 
 export const createProjectValidation = project => {
-  const { projectName, siteLocation, workSummary, startDate, endDate } = project
+  const {
+    projectName,
+    siteLocation,
+    workSummary,
+    startDate,
+    endDate,
+    completedAt,
+    projectStatus
+  } = project
 
   // Project Name
   if (!projectName?.trim()) {
@@ -50,6 +58,23 @@ export const createProjectValidation = project => {
 
   if (new Date(endDate) < new Date(startDate)) {
     showError('End date must be after start date')
+    return false
+  }
+
+  if (completedAt && new Date(completedAt) < new Date(startDate)) {
+    showError('Completion date cannot be before project start date')
+    return false
+  }
+
+  if (completedAt && !['completed', 'cancelled'].includes(projectStatus)) {
+    showError(
+      'Project status must be "completed" or "cancelled" when date is provided'
+    )
+    return false
+  }
+
+  if (['completed', 'cancelled'].includes(projectStatus) && !completedAt) {
+    showError('Date is required when project status is completed or cancelled')
     return false
   }
 

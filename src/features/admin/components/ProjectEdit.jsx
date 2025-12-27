@@ -1,217 +1,226 @@
-import React, { useState } from "react";
+import AdminNavbar from "../../../layouts/admin/AdminNavbar";
+import { useEditProject } from "../hooks/useEditProject";
 
 function ProjectEdit() {
-  const [projectIdInput, setProjectIdInput] = useState("");
-  const [project, setProject] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const {
+    project,
+    handleChange,
+    isEditing,
+    startEditing,
+    cancelEditing,
+    loading,
+    errorMessage,
+    saveChanges,
+  } = useEditProject();
 
-  // 🔹 Mock project DB (replace with API)
-  const mockProjectDB = {
-    "PROJ-20251216-00005": {
-      projectId: "PROJ-20251216-00005",
-      projectName: "Government School Renovation",
-      siteLocation: "Manjeri, Malappuram",
-      workSummary:
-        "Renovation of classrooms, roofing, electrical wiring, and sanitation facilities in a government school.",
-      startDate: "2024-02-01",
-      endDate: "2024-10-30",
-      projectStatus: "completed",
-      status: "active",
-    },
-  };
+  const inputBase =
+    "mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/20";
 
-  const handleSearch = () => {
-    const data = mockProjectDB[projectIdInput];
-    setProject(data || null);
-    setIsEditing(false);
-  };
-
-  const handleDeleteProject = () => {
-    alert("Project deleted (API call here)");
-    setProject(null);
-    setProjectIdInput("");
-  };
+  const readOnlyStyle = "bg-gray-100 text-gray-700";
 
   return (
-    <div className="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow border">
-      <h2 className="mb-6 text-xl font-semibold text-gray-800">
-        Edit Project
-      </h2>
+    <>
+      <AdminNavbar />
 
-      {/* Search */}
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          value={projectIdInput}
-          onChange={(e) => setProjectIdInput(e.target.value)}
-          placeholder="Enter Project ID"
-          className="w-full rounded-md border px-3 py-2 text-sm"
-        />
-        <button
-          onClick={handleSearch}
-          className="rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
-        >
-          Search
-        </button>
-      </div>
-
-      {/* Project Details */}
-      {project && (
-        <div className="space-y-4">
-
-          {/* Project Name */}
-          <div>
-            <label className="text-sm font-medium">Project Name</label>
-            <input
-              type="text"
-              value={project.projectName}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setProject({ ...project, projectName: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
+      <div className="mx-auto max-w-3xl px-4 py-10">
+        <div className="rounded-2xl bg-white shadow-sm border">
+          {/* Header */}
+          <div className="border-b px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Edit Project
+            </h2>
+            <p className="text-sm text-gray-500">
+              Search and update project information
+            </p>
           </div>
 
-          {/* Project ID */}
-          <div>
-            <label className="text-sm font-medium">Project ID</label>
-            <input
-              type="text"
-              value={project.projectId}
-              readOnly
-              className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
-            />
-          </div>
-
-          {/* Location */}
-          <div>
-            <label className="text-sm font-medium">Site Location</label>
-            <input
-              type="text"
-              value={project.siteLocation}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setProject({ ...project, siteLocation: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
-          </div>
-
-          {/* Work Summary */}
-          <div>
-            <label className="text-sm font-medium">Work Summary</label>
-            <textarea
-              rows="3"
-              value={project.workSummary}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setProject({ ...project, workSummary: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
-          </div>
-
-          {/* Dates */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-sm font-medium">Start Date</label>
-              <input
-                type="date"
-                value={project.startDate}
-                readOnly={!isEditing}
-                onChange={(e) =>
-                  setProject({ ...project, startDate: e.target.value })
-                }
-                className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                  !isEditing && "bg-gray-100"
-                }`}
-              />
+          {/* Error */}
+          {errorMessage && (
+            <div className="m-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
+              {errorMessage}
             </div>
+          )}
 
-            <div>
-              <label className="text-sm font-medium">End Date</label>
-              <input
-                type="date"
-                value={project.endDate}
-                readOnly={!isEditing}
-                onChange={(e) =>
-                  setProject({ ...project, endDate: e.target.value })
-                }
-                className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                  !isEditing && "bg-gray-100"
-                }`}
-              />
-            </div>
-          </div>
+          <div className="p-6">
+            {/* Project Details */}
+            {project && (
+              <div className="space-y-6">
+                {/* Project Name */}
+                <div>
+                  <label className="text-sm font-medium">Project Name</label>
+                  <input
+                    name="projectName"
+                    value={project.projectName}
+                    readOnly={!isEditing}
+                    onChange={handleChange}
+                    className={`${inputBase} ${!isEditing && readOnlyStyle}`}
+                  />
+                </div>
 
-          {/* Status */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-sm font-medium">Project Status</label>
-              <select
-                value={project.projectStatus}
-                disabled={!isEditing}
-                onChange={(e) =>
-                  setProject({ ...project, projectStatus: e.target.value })
-                }
-                className="mt-1 w-full rounded-md border px-3 py-2 text-sm bg-white"
-              >
-                <option value="ongoing">Ongoing</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
+                {/* Project ID */}
+                <div>
+                  <label className="text-sm font-medium">Project ID</label>
+                  <input
+                    value={project.projectId}
+                    readOnly
+                    className={`${inputBase} ${readOnlyStyle}`}
+                  />
+                </div>
 
-            <div>
-              <label className="text-sm font-medium">Record Status</label>
-              <input
-                type="text"
-                value={project.status}
-                readOnly
-                className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
-              />
-            </div>
-          </div>
+                {/* Location */}
+                <div>
+                  <label className="text-sm font-medium">Site Location</label>
+                  <input
+                    name="siteLocation"
+                    value={project.siteLocation}
+                    readOnly={!isEditing}
+                    onChange={handleChange}
+                    className={`${inputBase} ${!isEditing && readOnlyStyle}`}
+                  />
+                </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 pt-4">
-            {!isEditing ? (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-              >
-                Edit Project
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  alert("Project updated (API call here)");
-                }}
-                className="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-              >
-                Save Changes
-              </button>
+                {/* Summary */}
+                <div>
+                  <label className="text-sm font-medium">Work Summary</label>
+                  <textarea
+                    rows="4"
+                    name="workSummary"
+                    value={project.workSummary}
+                    readOnly={!isEditing}
+                    onChange={handleChange}
+                    className={`${inputBase} resize-none ${
+                      !isEditing && readOnlyStyle
+                    }`}
+                  />
+                </div>
+
+                {/* Dates */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium">Start Date</label>
+                    <input
+                      type="date"
+                      name="startDate"
+                      value={
+                        project?.startDate
+                          ? project.startDate.split("T")[0]
+                          : ""
+                      }
+                      readOnly={!isEditing}
+                      onChange={handleChange}
+                      className={`${inputBase} ${!isEditing && readOnlyStyle}`}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">End Date</label>
+                    <input
+                      type="date"
+                      name="endDate"
+                      value={
+                        project?.endDate ? project.endDate.split("T")[0] : ""
+                      }
+                      readOnly={!isEditing}
+                      onChange={handleChange}
+                      className={`${inputBase} ${!isEditing && readOnlyStyle}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium">
+                      Project Status
+                    </label>
+                    <select
+                      name="projectStatus"
+                      value={project.projectStatus}
+                      disabled={!isEditing}
+                      onChange={handleChange}
+                      className={`${inputBase} bg-white`}
+                    >
+                      <option value="ongoing">Ongoing</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">
+                      Completion Date
+                    </label>
+
+                    <input
+                      type="date"
+                      name="completedAt"
+                      value={
+                        project?.completedAt
+                          ? project.completedAt.split("T")[0]
+                          : ""
+                      }
+                      readOnly={!isEditing}
+                      onChange={handleChange}
+                      className={`${inputBase} ${!isEditing && readOnlyStyle}`}
+                    />
+
+                    {!project?.completedAt && (
+                      <p className="mt-1 text-xs font-medium text-amber-600">
+                        Not completed yet
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">
+                      Closed By (Engineer ID)
+                    </label>
+                    <input
+                      value={project?.closedByEngineerId || "Not closed yet"}
+                      readOnly
+                      className={`${inputBase} ${readOnlyStyle}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t">
+                  {!isEditing ? (
+                    <button
+                      onClick={startEditing}
+                      className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+                    >
+                      Edit Project
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={saveChanges}
+                        disabled={loading}
+                        className="rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 transition disabled:opacity-60"
+                      >
+                        Save Changes
+                      </button>
+
+                      <button
+                        onClick={cancelEditing}
+                        className="rounded-lg bg-gray-200 px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 transition"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+
+                  <button className="rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white hover:bg-red-700 transition">
+                    Delete Project
+                  </button>
+                </div>
+              </div>
             )}
-
-            <button
-              onClick={handleDeleteProject}
-              className="rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
-            >
-              Delete Project
-            </button>
           </div>
-
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 
