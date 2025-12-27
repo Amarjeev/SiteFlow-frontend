@@ -23,3 +23,9 @@ export const updateProjectApi = async payload => {
 
   return response.data.success === true
 }
+
+export const deleteProjectApi = async projectId => {
+  const response = await api.post(`/admin/project/${projectId}/delete`)
+
+  return response.data.success === true
+}

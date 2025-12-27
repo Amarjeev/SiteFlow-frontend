@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import {
   fetchProjectbyIdApi,
-  updateProjectApi
+  updateProjectApi,
+  deleteProjectApi
 } from '../../../api/admin/Projects.api'
 import { showSuccess } from '../../../utils/toast'
 import { createProjectValidation } from '../validations/createProject.validation'
@@ -104,6 +105,34 @@ export const useEditProject = () => {
     }
   }
 
+  /* ------------------ Delete ------------------ */
+  const handleDelete = async () => {
+    if (!projectId) {
+      navigate('/admin/projects')
+      return
+    }
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this active project? This action cannot be undone.'
+    )
+
+    if (!isConfirmed) return
+
+    try {
+      setLoading(true)
+      const isSuccess = await deleteProjectApi(projectId)
+      if (isSuccess) {
+        showSuccess('Project delete successfully')
+        setTimeout(() => {
+          navigate('/admin/projects')
+        }, 2000)
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return {
     project,
     handleChange,
@@ -112,6 +141,7 @@ export const useEditProject = () => {
     cancelEditing,
     loading,
     errorMessage,
-    saveChanges
+    saveChanges,
+    handleDelete
   }
 }

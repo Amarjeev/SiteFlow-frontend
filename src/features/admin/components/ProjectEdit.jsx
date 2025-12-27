@@ -11,6 +11,7 @@ function ProjectEdit() {
     loading,
     errorMessage,
     saveChanges,
+    handleDelete
   } = useEditProject();
 
   const inputBase =
@@ -171,16 +172,16 @@ function ProjectEdit() {
                     )}
                   </div>
 
-                  <div>
-                    <label className="text-sm font-medium">
-                      Closed By (Engineer ID)
-                    </label>
-                    <input
-                      value={project?.closedByEngineerId || "Not closed yet"}
-                      readOnly
-                      className={`${inputBase} ${readOnlyStyle}`}
-                    />
-                  </div>
+                  {project?.closedByRole && (
+                    <div>
+                      <label className="text-sm font-medium">Closed By</label>
+                      <input
+                        value={project?.closedByRole || "Not closed yet"}
+                        readOnly
+                        className={`${inputBase} ${readOnlyStyle}`}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Actions */}
@@ -211,8 +212,17 @@ function ProjectEdit() {
                     </>
                   )}
 
-                  <button className="rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white hover:bg-red-700 transition">
-                    Delete Project
+                  <button
+                    onClick={handleDelete}
+                    disabled={loading}
+                    className={`
+    rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white
+    transition-all duration-200
+    hover:bg-red-700
+    ${loading ? "animate-pulse cursor-wait" : ""}
+  `}
+                  >
+                    {loading ? "Deleting..." : "Delete Project"}
                   </button>
                 </div>
               </div>
