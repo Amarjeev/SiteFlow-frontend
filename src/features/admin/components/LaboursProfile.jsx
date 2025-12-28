@@ -1,167 +1,167 @@
-import React, { useState } from "react";
+import AdminNavbar from "../../../layouts/admin/AdminNavbar";
+import { useRestrictLabourAccess } from "../hooks/useRestrictLabourAccess";
 
 function LaboursProfile() {
-  const [labourIdInput, setLabourIdInput] = useState("");
-  const [labour, setLabour] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-
-  // 🔹 Mock labour DB (replace with API)
-  const mockLabourDB = {
-    "LAB-20251217-00001": {
-      labourId: "LAB-20251217-00001",
-      name: "Ramesh Kumar",
-      mobile: "7034884827",
-      supervisorId: "SUP-20251216201259741",
-      status: "active",
-    },
-  };
-
-  const handleSearch = () => {
-    const data = mockLabourDB[labourIdInput];
-    setLabour(data || null);
-    setIsEditing(false);
-  };
-
-  const handleDeleteLabour = () => {
-    alert("Labour profile deleted (API call here)");
-    setLabour(null);
-    setLabourIdInput("");
-  };
+  const {
+    labourId,
+    setLabourId,
+    labour,
+    isEditingStatus,
+    setIsEditingStatus,
+    loading,
+    errorMessage,
+    handleSearch,
+    handleSaveStatus,
+  } = useRestrictLabourAccess();
 
   return (
-    <div className="mx-auto max-w-xl rounded-lg bg-white p-6 shadow border">
-      <h2 className="mb-6 text-xl font-semibold text-gray-800">
-        Labour Profile
-      </h2>
+    <>
+      <AdminNavbar />
 
-      {/* Search */}
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          value={labourIdInput}
-          onChange={(e) => setLabourIdInput(e.target.value)}
-          placeholder="Enter Labour ID"
-          className="w-full rounded-md border px-3 py-2 text-sm"
-        />
-        <button
-          onClick={handleSearch}
-          className="rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
-        >
-          Search
-        </button>
-      </div>
+      <div className="mx-auto max-w-xl rounded-xl bg-white p-6 shadow border">
+        <h2 className="mb-2 text-xl font-semibold text-gray-800">
+          Labour Profile
+        </h2>
 
-      {/* Labour Details */}
-      {labour && (
-        <div className="space-y-4">
+        {/* Access note */}
+        <p className="mb-6 rounded-md bg-gray-100 px-3 py-2 text-xs text-gray-600">
+          ⚠️ Access Denied: Labour users cannot access or modify this page. Only
+          admins can block or unblock labour accounts.
+        </p>
 
-          {/* Name */}
-          <div>
-            <label className="text-sm font-medium">Name</label>
-            <input
-              type="text"
-              value={labour.name}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setLabour({ ...labour, name: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
-          </div>
-
-          {/* Labour ID */}
-          <div>
-            <label className="text-sm font-medium">Labour ID</label>
-            <input
-              type="text"
-              value={labour.labourId}
-              readOnly
-              className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
-            />
-          </div>
-
-          {/* Mobile */}
-          <div>
-            <label className="text-sm font-medium">Mobile</label>
-            <input
-              type="text"
-              value={labour.mobile}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setLabour({ ...labour, mobile: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
-          </div>
-
-          {/* Supervisor ID */}
-          <div>
-            <label className="text-sm font-medium">Supervisor ID</label>
-            <input
-              type="text"
-              value={labour.supervisorId}
-              readOnly={!isEditing}
-              onChange={(e) =>
-                setLabour({ ...labour, supervisorId: e.target.value })
-              }
-              className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${
-                !isEditing && "bg-gray-100"
-              }`}
-            />
-          </div>
-
-          {/* Status */}
-          <div>
-            <label className="text-sm font-medium">Status</label>
-            <select
-              value={labour.status}
-              disabled={!isEditing}
-              onChange={(e) =>
-                setLabour({ ...labour, status: e.target.value })
-              }
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm bg-white"
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-3 pt-4">
-            {!isEditing ? (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-              >
-                Edit Profile
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  alert("Labour profile updated (API call here)");
-                }}
-                className="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-              >
-                Save Changes
-              </button>
-            )}
-
-            <button
-              onClick={handleDeleteLabour}
-              className="rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
-            >
-              Delete Profile
-            </button>
-          </div>
-
+        {/* Search */}
+        <div className="mb-6 flex gap-2">
+          <input
+            type="text"
+            value={labourId}
+            onChange={(e) => setLabourId(e.target.value.trim())}
+            placeholder="Enter Labour ID"
+            className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10"
+          />
+          <button
+            onClick={handleSearch}
+            disabled={loading}
+            className="
+    rounded-md bg-black px-4 py-2 text-sm text-white
+    transition-all duration-200 ease-out
+    hover:bg-gray-800
+    active:scale-95
+    disabled:opacity-60 disabled:cursor-not-allowed
+  "
+          >
+            {loading ? "Searching..." : "Search"}
+          </button>
         </div>
-      )}
-    </div>
+
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
+            {errorMessage}
+          </div>
+        )}
+
+        {/* Labour Details */}
+        {labour && (
+          <div className="space-y-4">
+            {/* Name */}
+            <div>
+              <label className="text-sm font-medium">Name</label>
+              <input
+                value={labour.name}
+                readOnly
+                className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
+              />
+            </div>
+
+            {/* Labour ID */}
+            <div>
+              <label className="text-sm font-medium">Labour ID</label>
+              <input
+                value={labour.labourId}
+                readOnly
+                className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
+              />
+            </div>
+
+            {/* Mobile */}
+            <div>
+              <label className="text-sm font-medium">Mobile</label>
+              <input
+                value={labour.mobile}
+                readOnly
+                className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
+              />
+            </div>
+
+            {/* Supervisor */}
+            <div>
+              <label className="text-sm font-medium text-gray-700">
+                Created By (Supervisor ID)
+              </label>
+              <input
+                value={labour.supervisorId}
+                readOnly
+                className="mt-1 w-full rounded-md border bg-gray-100 px-3 py-2 text-sm"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                This labour profile was created by the above supervisor.
+              </p>
+            </div>
+
+            {/* Status */}
+            <div>
+              <label className="text-sm font-medium">Account Status</label>
+
+              <div
+                className={`mt-1 w-full rounded-md border px-3 py-2 text-sm font-medium
+      ${
+        labour.status === "active"
+          ? "bg-green-50 text-green-700 border-green-200"
+          : "bg-red-50 text-red-700 border-red-200"
+      }
+    `}
+              >
+                {labour.status === "active"
+                  ? "Active (Unblocked)"
+                  : "Inactive (Blocked)"}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 pt-4">
+              {!isEditingStatus ? (
+                <button
+                  onClick={() => setIsEditingStatus(true)}
+                  className={`rounded-md px-4 py-2 text-sm text-white transition ${
+                    labour.status === "active"
+                      ? "bg-red-600 hover:bg-red-700"
+                      : "bg-green-600 hover:bg-green-700"
+                  }`}
+                >
+                  {labour.status === "active"
+                    ? "Deny Access"
+                    : "Restore Access"}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSaveStatus}
+                  disabled={loading}
+                  className="
+    rounded-md bg-black px-4 py-2 text-sm text-white
+    transition-all duration-200 ease-out
+    hover:bg-gray-800
+    active:scale-95
+    disabled:opacity-60 disabled:cursor-not-allowed
+  "
+                >
+                  {loading ? "Saving..." : "Save Status"}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

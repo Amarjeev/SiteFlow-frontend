@@ -11,7 +11,7 @@ function AdminNavbar() {
     ["Add Staff", "/admin/create/staff-profile", "👤"],
     ["Project Assignment", "/admin/projects/assign", "🧩"],
     ["Staff Profiles", "/admin/staff/profile/edit", "🗂️"],
-    ["Labour Profiles", "/admin/labours", "🧑‍🔧"],
+    ["Labour Profiles", "/admin/labour/profile", "🧑‍🔧"],
   ];
 
   const linkStyle = (isActive) =>

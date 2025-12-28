@@ -14,6 +14,7 @@ import CreateStaffProfile from "./features/admin/components/CreateStaffProfile.j
 import AssignProjects from "./features/admin/components/AssigneProjects.jsx";
 import ProjectEdit from "./features/admin/components/ProjectEdit.jsx";
 import StaffProfileEdit from "./features/admin/components/StaffProfileEdit.jsx";
+import LaboursProfile from "./features/admin/components/LaboursProfile.jsx";
 
 function App() {
   useAuthRedirect();
@@ -35,6 +36,7 @@ function App() {
       />
       <Route path="/admin/projects/assign" element={<AssignProjects />} />
       <Route path="/admin/staff/profile/edit" element={<StaffProfileEdit />} />
+      <Route path="/admin/labour/profile" element={<LaboursProfile />} />
     </Routes>
   );
 }
