@@ -9,8 +9,9 @@ export const createStaffProfileValidation = staff => {
     return false
   }
 
-  if (name.trim().length > 100) {
-    showError('Name can be at most 100 characters')
+  // Name length validation
+  if (name.trim().length < 3 || name.trim().length > 100) {
+    showError('Name must be between 3 and 100 characters')
     return false
   }
 

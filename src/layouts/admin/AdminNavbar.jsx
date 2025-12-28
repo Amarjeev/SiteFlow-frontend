@@ -10,7 +10,7 @@ function AdminNavbar() {
     ["Create Project", "/admin/create-project","➕"],
     ["Add Staff", "/admin/create/staff-profile", "👤"],
     ["Project Assignment", "/admin/projects/assign", "🧩"],
-    ["Staff Profiles", "/admin/staff", "🗂️"],
+    ["Staff Profiles", "/admin/staff/profile/edit", "🗂️"],
     ["Labour Profiles", "/admin/labours", "🧑‍🔧"],
   ];
 
