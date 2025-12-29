@@ -8,7 +8,7 @@ export const adminLoginApi = async payload => {
       withCredentials: true
     })
 
-    return response.data.success === true
+    return response.data
   } catch (error) {
     show429Error(error)
 

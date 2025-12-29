@@ -21,16 +21,22 @@ export const useAdminLogin = () => {
 
     try {
       setLoading(true)
-      const isSuccess = await adminLoginApi({ email, password })
+      const response = await adminLoginApi({ email, password })
 
-      if (isSuccess) {
+      const { userProfile, success } = response
+
+      if (success) {
         showSuccess('Login successful')
-        navigate('/admin/home', { replace: true })
+        // Store admin profile (email & name) for Admin Navbar usage
+        sessionStorage.setItem("adminEmail",userProfile?.email)
+         sessionStorage.setItem("adminName",userProfile?.name)
+        navigate('/admin/projects', { replace: true })
         setEmail('')
         setPassword('')
         setErrorMessage('')
       }
     } catch (error) {
+      console.log(error)
       setErrorMessage(error.message || 'Login failed')
     } finally {
       setLoading(false)
