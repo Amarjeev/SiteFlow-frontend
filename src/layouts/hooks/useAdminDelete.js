@@ -56,8 +56,8 @@ export const useAdminDelete = () => {
       await confirmAdminAccountDeletionApi(otp)
 
       sessionStorage.removeItem('showDeleteModal')
-      sessionStorage.removeItem('adminEmail')
-      sessionStorage.removeItem('adminName')
+      sessionStorage.removeItem('userEmail')
+      sessionStorage.removeItem('userName')
       sessionStorage.removeItem('userRole')
       navigate('/', { replace: true })
     } catch (error) {

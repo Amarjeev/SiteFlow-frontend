@@ -5,11 +5,21 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      originalRequest.url !== '/token/refresh'
+    ) {
       originalRequest._retry = true
 
       try {
-        await api.post('/token/refresh')
+        const res = await api.post('/token/refresh')
+
+        const { userId, name } = res.data
+
+        sessionStorage.setItem('userEmail', userId)
+        sessionStorage.setItem('userName', name)
+
         return api(originalRequest)
       } catch {
         window.location.href = '/'

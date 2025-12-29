@@ -11,8 +11,8 @@ export const useAdminNavLogic = () => {
 
 
   useEffect(() => {
-    setAdminEmail(sessionStorage.getItem('adminEmail') || 'N/A')
-    setAdminName(sessionStorage.getItem('adminName') || 'N/A')
+    setAdminEmail(sessionStorage.getItem('userEmail') || 'N/A')
+    setAdminName(sessionStorage.getItem('userName') || 'N/A')
   }, [])
 
   const navLinks = [
