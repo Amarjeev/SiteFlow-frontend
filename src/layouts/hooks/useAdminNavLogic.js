@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import { useLocation } from 'react-router-dom'
 
 export const useAdminNavLogic = () => {
   const { pathname } = useLocation()
 
-  const [adminName, setAdminName] = useState('')
-  const [adminEmail, setAdminEmail] = useState('')
+  const [adminEmail, _setAdminEmail] = useState(
+    () => sessionStorage.getItem('userEmail') || 'N/A'
+  )
+
+  const [adminName, _setAdminName] = useState(
+    () => sessionStorage.getItem('userName') || 'N/A'
+  )
+
   const [menuOpen, setMenuOpen] = useState(false)
 
 
-
-  useEffect(() => {
-    setAdminEmail(sessionStorage.getItem('userEmail') || 'N/A')
-    setAdminName(sessionStorage.getItem('userName') || 'N/A')
-  }, [])
 
   const navLinks = [
     ['Projects', '/admin/projects', '📁'],
@@ -43,6 +44,6 @@ export const useAdminNavLogic = () => {
     setMenuOpen,
     pathname,
     navLinks,
-    linkStyle,
+    linkStyle
   }
 }
