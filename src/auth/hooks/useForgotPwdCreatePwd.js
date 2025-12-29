@@ -43,7 +43,7 @@ export const useForgotPwdCreatePwd = () => {
         showSuccess('Password reset successful. Redirecting to login...')
         setShowSuccessMessage(true)
         setTimeout(() => {
-          navigate('/login', { replace: true })
+          navigate('/', { replace: true })
         }, 4000)
       }
     } catch (error) {

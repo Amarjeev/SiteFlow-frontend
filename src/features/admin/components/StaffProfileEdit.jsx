@@ -1,5 +1,5 @@
 import { useEditStaffProfile } from "../hooks/useEditStaffProfile";
-import AdminNavbar from "../../../layouts/admin/AdminNavbar";
+import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
 
 function StaffProfileEdit() {
   const {

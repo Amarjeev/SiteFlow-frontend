@@ -15,7 +15,6 @@ export const useAdminNavLogic = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
 
-
   const navLinks = [
     ['Projects', '/admin/projects', '📁'],
     ['Create Project', '/admin/create-project', '➕'],

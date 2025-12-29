@@ -1,7 +1,7 @@
 import React from "react";
 import ProjectCard from "../components/ProjectCard";
 import ProjectSearchBar from "../components/ProjectSearchBar";
-import AdminNavbar from "../../../layouts/admin/AdminNavbar";
+import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
 import { useFetchProjects } from "../hooks/useFetchProjects";
 
 function ProjectsPage() {

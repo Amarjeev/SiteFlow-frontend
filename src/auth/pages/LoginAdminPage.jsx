@@ -1,7 +1,7 @@
 import AdminLoginForm from "../components/AdminLoginForm";
 import Navbar from "../../components/common/Navbar";
 
-function LoginPage() {
+function LoginAdminPage() {
   return (
     <div>
       <Navbar />
@@ -10,4 +10,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginAdminPage;

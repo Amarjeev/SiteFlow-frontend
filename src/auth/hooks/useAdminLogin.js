@@ -28,8 +28,8 @@ export const useAdminLogin = () => {
       if (success) {
         showSuccess('Login successful')
         // Store admin profile (email & name) for Admin Navbar usage
-        sessionStorage.setItem("adminEmail",userProfile?.email)
-         sessionStorage.setItem("adminName",userProfile?.name)
+        sessionStorage.setItem("userEmail",userProfile?.email)
+         sessionStorage.setItem("userName",userProfile?.name)
         navigate('/admin/projects', { replace: true })
         setEmail('')
         setPassword('')

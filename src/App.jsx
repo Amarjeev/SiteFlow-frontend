@@ -1,9 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import AdminSignupForm from "./auth/components/AdminSignupForm";
-import LoginPage from "./auth/pages/LoginPage";
 import LandingPage from "./components/common/LandingPage";
-// import AdminDashboard from "./features/admin/pages/AdminDashboard";
 import ForgotPwdEmailForm from "./auth/components/ForgotPwdEmailForm.jsx";
 import OtpForm from "./auth/components/ForgotPwdOtpForm.jsx";
 import ResetPasswordForm from "./auth/components/ResetPasswordForm.jsx";
@@ -15,18 +13,29 @@ import AssignProjects from "./features/admin/components/AssigneProjects.jsx";
 import ProjectEdit from "./features/admin/components/ProjectEdit.jsx";
 import StaffProfileEdit from "./features/admin/components/StaffProfileEdit.jsx";
 import LaboursProfile from "./features/admin/components/LaboursProfile.jsx";
+import LoginAdminPage from "./auth/pages/LoginAdminPage.jsx";
+import LoginStaffPage from "./auth/pages/LoginStaffPage.jsx";
+import LoginOtpVerifyForm from "./auth/components/LoginOtpVerifyForm.jsx";
 
 function App() {
   useAuthRedirect();
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<AdminSignupForm />} />
+
+      {/* auth */}
+      <Route path="/auth/verify-otp" element={<LoginOtpVerifyForm />} />
       <Route path="/forgot-password" element={<ForgotPwdEmailForm />} />
       <Route path="/forgot-password/otp" element={<OtpForm />} />
       <Route path="/forgot-password/reset" element={<ResetPasswordForm />} />
-      {/* <Route path="/admin/home" element={<AdminDashboard />} /> */}
+
+      {/* ADMIN */}
+      <Route path="/admin/login" element={<LoginAdminPage />} />
+      <Route path="/admin/signup" element={<AdminSignupForm />} />
+
+      {/* ENGINEER/SUPERVISOR */}
+      <Route path="/staff/login" element={<LoginStaffPage />} />
+
       <Route path="/admin/create-project" element={<CreateProjectPage />} />
       <Route path="/admin/projects" element={<ProjectsPage />} />
       <Route path="/admin/projects/:projectId/edit" element={<ProjectEdit />} />

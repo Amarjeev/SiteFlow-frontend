@@ -16,39 +16,45 @@ function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-3">
           {userRole && (
-            <span className="flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-red-50 text-red-700 font-medium">
-              🧑 Role:
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-[10px]">
+                👤
+              </span>
               {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
             </span>
           )}
 
-          <Link
-            to={userRole ? "/login" : "#"}
-            onClick={(e) => !userRole && e.preventDefault()}
-            className={`px-4 py-1.5 rounded-full text-sm transition-all
+          {userRole === "admin" && (
+            <>
+              <Link
+                to={userRole ? "/login" : "#"}
+                onClick={(e) => !userRole && e.preventDefault()}
+                className={`px-4 py-1.5 rounded-full text-sm transition-all
               ${
                 userRole
                   ? "border border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                   : "border border-gray-300 text-gray-400 cursor-not-allowed"
               }
             `}
-          >
-            Login
-          </Link>
+              >
+                Login
+              </Link>
 
-          <Link
-            to={userRole ? "/signup" : "#"}
-            onClick={(e) => !userRole && e.preventDefault()}
-            className={`px-4 py-1.5 rounded-full text-sm transition-all
+              <Link
+                to={userRole ? "/signup" : "#"}
+                onClick={(e) => !userRole && e.preventDefault()}
+                className={`px-4 py-1.5 rounded-full text-sm transition-all
               ${
                 userRole
                   ? "bg-red-600 text-white hover:bg-red-700"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }
             `}
-          >
-            Signup
-          </Link>
+              >
+                Signup
+              </Link>
+            </>
+          )}
 
           {/* Exit Button */}
           {userRole && (
@@ -74,39 +80,45 @@ function Navbar() {
       {menuOpen && (
         <div className="md:hidden mt-4 space-y-3 rounded-xl bg-white shadow p-4">
           {userRole && (
-            <span className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-red-50 text-red-700 font-medium">
-              🧑 Role:
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-[10px]">
+                👤
+              </span>
               {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
             </span>
           )}
 
-          <Link
-            to={userRole ? "/login" : "#"}
-            onClick={(e) => !userRole && e.preventDefault()}
-            className={`block w-full text-center py-2 rounded-lg text-sm
+          {userRole === "admin" && (
+            <>
+              <Link
+                to={userRole ? "/login" : "#"}
+                onClick={(e) => !userRole && e.preventDefault()}
+                className={`block w-full text-center py-2 rounded-lg text-sm
               ${
                 userRole
                   ? "border border-red-600 text-red-600"
                   : "border border-gray-300 text-gray-400 cursor-not-allowed"
               }
             `}
-          >
-            Login
-          </Link>
+              >
+                Login
+              </Link>
 
-          <Link
-            to={userRole ? "/signup" : "#"}
-            onClick={(e) => !userRole && e.preventDefault()}
-            className={`block w-full text-center py-2 rounded-lg text-sm
+              <Link
+                to={userRole ? "/signup" : "#"}
+                onClick={(e) => !userRole && e.preventDefault()}
+                className={`block w-full text-center py-2 rounded-lg text-sm
               ${
                 userRole
                   ? "bg-red-600 text-white"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }
             `}
-          >
-            Signup
-          </Link>
+              >
+                Signup
+              </Link>
+            </>
+          )}
 
           {userRole && (
             <button

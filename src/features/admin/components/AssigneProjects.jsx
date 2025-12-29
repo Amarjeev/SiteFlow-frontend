@@ -1,4 +1,4 @@
-import AdminNavbar from "../../../layouts/admin/AdminNavbar";
+import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
 import { useAssigneProjects } from "../hooks/useAssigneProjects";
 
 function AssignProjects() {

@@ -31,7 +31,7 @@ function ResetPasswordForm() {
               <p className="text-green-600 text-sm text-center">
                 Password reset successful. Redirecting to login{" "}
                 <Link
-                  to="/login"
+                  to="/"
                   className="font-medium text-blue-600 hover:underline"
                 >
                   Login now
