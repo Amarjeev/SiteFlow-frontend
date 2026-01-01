@@ -3,7 +3,6 @@ import {
   fetchProjectsEngApi,
   fetchProjectWithIdEngApi
 } from '../../../api/engineer/projects.api'
-import { showError } from '../../../utils/toast'
 import { useCallback } from 'react'
 
 export const useEngineerProjects = () => {
@@ -24,6 +23,8 @@ export const useEngineerProjects = () => {
   })
   const [selectedProjectDetails, setSelectedProjectDetails] = useState(null)
 
+  /* ===================== API : PROJECT LIST ===================== */
+
   const fetchProjects = useCallback(async () => {
     const payload = {
       projectId: searchProjectId.trim(),
@@ -43,12 +44,9 @@ export const useEngineerProjects = () => {
     }
   }, [searchProjectId, statusFilter])
 
-  const fetchProjectById = useCallback(async () => {
-    if (!activeProjectId) {
-      showError('Something went wrong. Please try again.')
-      return
-    }
+  /* ===================== API : PROJECT DETAILS ===================== */
 
+  const fetchProjectById = useCallback(async () => {
     try {
       setDetailsLoading(true)
       setDetailsError(null)
@@ -64,6 +62,8 @@ export const useEngineerProjects = () => {
     }
   }, [activeProjectId])
 
+  /* ===================== STORAGE SYNC ===================== */
+
   useEffect(() => {
     if (statusFilter) {
       sessionStorage.setItem('statusFilter', statusFilter)
@@ -74,6 +74,8 @@ export const useEngineerProjects = () => {
     }
   }, [statusFilter, activeProjectId])
 
+  /* ===================== EFFECT : FILTER CHANGE ===================== */
+
   useEffect(() => {
     if (!statusFilter) return
 
@@ -82,8 +84,9 @@ export const useEngineerProjects = () => {
     fetchProjects()
   }, [statusFilter, fetchProjects])
 
+  /* ===================== EFFECT : PROJECT SELECTION ===================== */
+
   useEffect(() => {
-    if (!activeProjectId) return
     fetchProjectById()
   }, [activeProjectId, fetchProjectById])
 
@@ -100,6 +103,7 @@ export const useEngineerProjects = () => {
     listError,
     detailsError,
     listLoading,
-    detailsLoading
+    detailsLoading,
+    fetchProjectById
   }
 }

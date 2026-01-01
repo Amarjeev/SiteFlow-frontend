@@ -49,7 +49,7 @@ export const useEditProject = () => {
     }
 
     fetchProject()
-  }, [projectId])
+  }, [projectId, navigate])
 
   /* ------------------ EDIT ------------------ */
   const startEditing = () => {
@@ -76,6 +76,12 @@ export const useEditProject = () => {
   /* ------------------ SAVE ------------------ */
   const saveChanges = async () => {
     if (!project) return
+
+    if (project.projectStatus === 'ongoing') {
+      project.completedAt = undefined
+      project.closedByRole = undefined
+    }
+
     if (!createProjectValidation(project)) return
 
     try {

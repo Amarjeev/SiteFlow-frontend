@@ -1,136 +1,109 @@
-import React, { useState } from "react";
 import StaffNavbar from "../../../layouts/navbar/EngineerNavbar";
+import { useProjectReportEdit } from "../hooks/useProjectReportEdit";
+
+/* ================= MAIN COMPONENT ================= */
 
 function ProjectReports() {
-  const [search, setSearch] = useState("");
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [filterDate, setFilterDate] = useState("");
+  const {
+    projectId,
+    setProjectId,
+    filterDate,
+    setFilterDate,
+    projectDetails,
+    errorMessage,
+    loading,
+    handleFetchProject,
 
-  /* ================= DUMMY DATA ================= */
-
-  const projects = [
-    {
-      projectId: "PROJ2025122700001",
-      projectName: "Kozhikode Smart Drainage Upgrade",
-      siteLocation: "Kozhikode, Kerala",
-      startDate: "2025-12-27",
-      endDate: "2026-01-10",
-      status: "ongoing",
-      workSummary:
-        "Upgrade and rehabilitation of the existing stormwater drainage system including excavation, concrete lining, and road restoration.",
-    },
-  ];
-
-  const projectUpdates = [
-    {
-      id: 1,
-      projectId: "PROJ2025122700001",
-      date: "2025-12-28",
-      status: "ongoing",
-      text: "Drainage excavation completed for zone A.",
-    },
-    {
-      id: 2,
-      projectId: "PROJ2025122700001",
-      date: "2025-12-29",
-      status: "ongoing",
-      text: "Concrete lining started, 40% progress achieved.",
-    },
-    {
-      id: 3,
-      projectId: "PROJ2025122700001",
-      date: "2025-12-30",
-      status: "completed",
-      text: "Phase 1 completed successfully.",
-    },
-  ];
-
-  /* ================= HANDLERS ================= */
-
-  const handleSearch = () => {
-    const project = projects.find(
-      (p) =>
-        p.projectId.toLowerCase() === search.toLowerCase() ||
-        p.projectName.toLowerCase().includes(search.toLowerCase())
-    );
-
-    setSelectedProject(project || null);
-    setFilterDate("");
-  };
-
-  const filteredUpdates =
-    selectedProject &&
-    projectUpdates.filter((u) => {
-      const matchProject = u.projectId === selectedProject.projectId;
-      const matchDate = !filterDate || u.date === filterDate;
-      return matchProject && matchDate;
-    });
+    editingId,
+    filteredUpdates,
+    formatDate,
+    startEdit,
+    cancelEdit,
+    handleEditChange,
+    handleSaveEdit,
+    editForm,
+    editLoading,
+    editError,
+    deleteLoading,
+    handleDelete
+  } = useProjectReportEdit();
 
   return (
     <>
       <StaffNavbar />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4">
-        {/* ================= LEFT SIDE ================= */}
-        <aside className="lg:col-span-1 space-y-6">
+        {/* ================= LEFT ================= */}
+        <aside className="space-y-6">
           {/* SEARCH */}
           <div className="rounded-2xl bg-white border shadow-lg p-5">
             <h2 className="text-lg font-semibold mb-4">🔍 Search Project</h2>
 
             <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Enter project ID or name..."
-              className="mb-3 w-full rounded-xl border px-4 py-2 text-sm
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+              placeholder="Enter project ID..."
+              className="w-full rounded-xl border px-4 py-2 mb-3 text-sm
                 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
 
             <button
-              onClick={handleSearch}
+              onClick={handleFetchProject}
+              disabled={loading || projectId.trim().length !== 17}
               className="w-full rounded-xl bg-red-600 py-2 text-sm font-medium text-white
-                hover:bg-red-700 transition"
+                hover:bg-red-700 transition disabled:opacity-60"
             >
-              Search
+              {loading ? "Searching..." : "Search"}
             </button>
           </div>
 
-          {/* FULL PROJECT DETAILS */}
-          {selectedProject && (
+          {/* ERROR */}
+          {errorMessage && (
+            <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
+              {errorMessage}
+            </div>
+          )}
+
+          {/* PROJECT DETAILS */}
+          {projectDetails && (
             <div className="rounded-2xl bg-white border shadow-lg p-5">
-              <h3 className="text-lg font-semibold mb-4">
-                📁 Full Project Details
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">📁 Project Details</h3>
 
               <div className="space-y-3 text-sm">
-                <Detail label="Project ID" value={selectedProject.projectId} />
-                <Detail label="Project Name" value={selectedProject.projectName} />
-                <Detail label="Location" value={selectedProject.siteLocation} />
-                <Detail label="Start Date" value={selectedProject.startDate} />
-                <Detail label="End Date" value={selectedProject.endDate} />
+                <Detail label="Project ID" value={projectDetails.projectId} />
+                <Detail label="Name" value={projectDetails.projectName} />
+                <Detail label="Location" value={projectDetails.siteLocation} />
+                <Detail
+                  label="Start"
+                  value={formatDate(projectDetails.startDate)}
+                />
+                <Detail
+                  label="End"
+                  value={formatDate(projectDetails.endDate)}
+                />
                 <Detail
                   label="Status"
                   value={
                     <span className="rounded-full bg-blue-100 px-3 py-0.5 text-xs font-medium text-blue-700 capitalize">
-                      {selectedProject.status}
+                      {projectDetails.projectStatus}
                     </span>
                   }
                 />
               </div>
 
-              {/* Summary */}
               <div className="mt-4 rounded-xl bg-gray-50 p-4 border">
                 <p className="text-sm font-medium mb-1">📝 Work Summary</p>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {selectedProject.workSummary}
+                <p className="text-sm text-gray-600">
+                  {projectDetails.workSummary}
                 </p>
               </div>
             </div>
           )}
         </aside>
 
-        {/* ================= RIGHT SIDE ================= */}
+        {/* ================= RIGHT ================= */}
         <section className="lg:col-span-2">
-          {!selectedProject ? (
+          {!projectDetails ? (
             <div className="rounded-2xl border border-dashed bg-gray-50 p-10 text-center text-gray-500">
               👈 Search a project to view updates
             </div>
@@ -143,42 +116,137 @@ function ProjectReports() {
                   type="date"
                   value={filterDate}
                   onChange={(e) => setFilterDate(e.target.value)}
-                  className="rounded-xl border px-3 py-1.5 text-sm
-                    focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="rounded-xl border px-3 py-1.5 text-sm"
                 />
               </div>
 
-              {filteredUpdates?.length > 0 ? (
+              {filteredUpdates?.length ? (
                 <div className="space-y-4">
                   {filteredUpdates.map((update) => (
-                    <div key={update.id} className="rounded-xl border p-4">
-                      <div className="flex justify-between mb-1">
+                    <div key={update._id} className="rounded-xl border p-4">
+                      <div className="flex justify-between items-center mb-2">
                         <p className="text-sm font-medium">
-                          📅 {update.date}
+                          📅 {formatDate(update.updateDate)}
                         </p>
-                        <span className="rounded-full bg-gray-100 px-3 py-0.5 text-xs capitalize">
-                          {update.status}
-                        </span>
+
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-full bg-gray-100 px-3 py-0.5 text-xs capitalize">
+                            {update.projectStatus}
+                          </span>
+
+                          <button
+                            onClick={() => startEdit(update)}
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            Edit
+                          </button>
+                        </div>
                       </div>
 
-                      <p className="text-sm text-gray-600">
-                        {update.text}
-                      </p>
+                      {editingId === update._id ? (
+                        <div className="space-y-3">
+                          {/* Global Project Error */}
+                          {editError && (
+                            <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
+                              {editError}
+                            </div>
+                          )}
 
-                      <div className="mt-3 flex justify-end gap-2">
-                        <button className="text-xs px-3 py-1.5 border rounded-lg hover:bg-gray-50">
-                          ✏️ Edit
-                        </button>
-                        <button className="text-xs px-3 py-1.5 rounded-lg bg-red-100 text-red-700 hover:bg-red-200">
-                          🗑️ Delete
-                        </button>
-                      </div>
+                          <input
+                            type="date"
+                            name="updateDate"
+                            value={editForm.updateDate}
+                            onChange={handleEditChange}
+                            className="w-full rounded-lg border px-3 py-2 text-sm"
+                          />
+
+                          <select
+                            name="projectStatus"
+                            value={editForm.projectStatus}
+                            onChange={handleEditChange}
+                            className="w-full rounded-lg border px-3 py-2 text-sm capitalize"
+                          >
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                          </select>
+
+                          <textarea
+                            name="progressSummary"
+                            rows={3}
+                            value={editForm.progressSummary}
+                            onChange={handleEditChange}
+                            maxLength={150}
+                            className="w-full rounded-lg border px-3 py-2 text-sm"
+                          />
+
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={cancelEdit}
+                              className="rounded-lg border px-4 py-1.5 text-sm"
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              onClick={() => handleDelete(update._id)}
+                              disabled={deleteLoading}
+                              className="
+    relative flex items-center justify-center gap-2
+    rounded-lg bg-red-100 px-4 py-1.5 text-sm text-red-700
+    border border-red-200
+    transition-all duration-200
+    hover:bg-red-200
+    active:scale-95
+    disabled:opacity-60 disabled:cursor-not-allowed
+  "
+                            >
+                              {deleteLoading && (
+                                <span className="h-4 w-4 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+                              )}
+
+                              <span>
+                                {deleteLoading ? "Deleting..." : "Delete"}
+                              </span>
+                            </button>
+
+                            <button
+                              onClick={() => handleSaveEdit(update._id)}
+                              disabled={editLoading}
+                              className="
+    relative flex items-center justify-center gap-2
+    rounded-lg bg-red-600 px-4 py-1.5 text-sm text-white
+    transition-all duration-200 ease-in-out
+    hover:bg-red-700
+    active:scale-95
+    disabled:opacity-60 disabled:cursor-not-allowed
+  "
+                            >
+                              {editLoading && (
+                                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              )}
+
+                              <span
+                                className={`transition-opacity duration-200 ${
+                                  editLoading ? "opacity-70" : "opacity-100"
+                                }`}
+                              >
+                                {editLoading ? "Saving..." : "Save"}
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-600">
+                          {update.progressSummary}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
               ) : (
                 <p className="text-sm text-gray-400 text-center py-6">
-                  No updates found for selected date
+                  No updates found
                 </p>
               )}
             </div>

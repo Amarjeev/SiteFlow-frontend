@@ -40,7 +40,7 @@ function ProjectDetails({ projectState }) {
     if (project?.projectStatus) {
       setNewStatus(project.projectStatus);
     }
-  }, [project?.projectStatus]);
+  }, [project?.projectStatus,setNewStatus]);
 
   /* ================= EMPTY / LOADING STATE ================= */
 

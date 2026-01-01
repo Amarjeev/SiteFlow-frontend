@@ -65,7 +65,7 @@ export const useEditStaffProfile = () => {
   useEffect(() => {
     if (!searchValue.trim()) return
     handleSearch()
-  }, [])
+  }, [handleSearch])
 
   /* ================= EDIT ================= */
   const handleEdit = () => {

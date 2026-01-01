@@ -168,7 +168,6 @@ export const useStaffLogin = () => {
           break
       }
     } catch (error) {
-      console.error(error)
       setErrorMessage(error.response?.data?.message || 'Something went wrong')
     } finally {
       setLoading(false)
