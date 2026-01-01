@@ -1,4 +1,4 @@
-import api from '../../config/api.config'
+import api from "../config/api.config"
 
 api.interceptors.response.use(
   response => response,

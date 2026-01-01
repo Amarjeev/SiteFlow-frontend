@@ -49,7 +49,9 @@ export const useVerifyLoginOtp = () => {
       sessionStorage.removeItem('loginEmail')
       sessionStorage.removeItem('loginStatus')
 
-      //   navigate(`/${userRole}/dashboard`)
+      if (userRole === 'engineer') {
+        navigate('/engineer/my-projects')
+      }
     } catch (error) {
       setErrorMessage(
         error?.response?.data?.message || 'OTP verification failed'

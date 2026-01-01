@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "./main.css";
 import { BrowserRouter } from "react-router-dom";
 
-import './api/auth/interceptor.js'
+import "./security/authInterceptor.js"
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>

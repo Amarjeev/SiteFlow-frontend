@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import api from '../../config/api.config'
+import api from '../config/api.config'
 
 export const useAuthRedirect = () => {
   const navigate = useNavigate()
@@ -26,15 +26,24 @@ export const useAuthRedirect = () => {
         const res = await api.get('/auth/me')
         const { role, userId, name } = res.data.user
 
-        if (role === 'admin') {
-          sessionStorage.setItem('userEmail', userId)
-          sessionStorage.setItem('userName', name)
-          sessionStorage.setItem('userRole', role)
-          navigate('/admin/projects', { replace: true })
-        } else if (role === 'supervisor') {
-          navigate('/supervisor/home', { replace: true })
-        } else if (role === 'engineer') {
-          navigate('/engineer/home', { replace: true })
+        switch (role) {
+          case 'admin':
+            sessionStorage.setItem('userName', name)
+            sessionStorage.setItem('userRole', role)
+            sessionStorage.setItem('userEmail', userId)
+            navigate('/admin/projects', { replace: true })
+            break
+
+          case 'supervisor':
+            navigate('/supervisor/home', { replace: true })
+            break
+
+          case 'engineer':
+            navigate('/engineer/my-projects', { replace: true })
+            break
+
+          default:
+            navigate('/', { replace: true })
         }
       } catch {
         sessionStorage.removeItem('authChecked')

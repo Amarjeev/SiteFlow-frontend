@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 
+import { useAuthRedirect } from "./security/useAuthRedirect.js";
+
 import AdminSignupForm from "./auth/components/AdminSignupForm";
 import LandingPage from "./components/common/LandingPage";
 import ForgotPwdEmailForm from "./auth/components/ForgotPwdEmailForm.jsx";
 import OtpForm from "./auth/components/ForgotPwdOtpForm.jsx";
 import ResetPasswordForm from "./auth/components/ResetPasswordForm.jsx";
-import { useAuthRedirect } from "./auth/hooks/useAuthRedirect.js";
 import CreateProjectPage from "./features/admin/pages/CreateProjectPage.jsx";
 import ProjectsPage from "./features/admin/pages/ProjectsPage.jsx";
 import CreateStaffProfile from "./features/admin/components/CreateStaffProfile.jsx";
@@ -16,6 +17,9 @@ import LaboursProfile from "./features/admin/components/LaboursProfile.jsx";
 import LoginAdminPage from "./auth/pages/LoginAdminPage.jsx";
 import LoginStaffPage from "./auth/pages/LoginStaffPage.jsx";
 import LoginOtpVerifyForm from "./auth/components/LoginOtpVerifyForm.jsx";
+import MyProjects from "./features/engineer/pages/MyProjects.jsx";
+import ProjectReports from "./features/engineer/components/ProjectReports.jsx";
+import ProfileDeatiles from "./features/engineer/components/ProfileDeatiles.jsx";
 
 function App() {
   useAuthRedirect();
@@ -35,6 +39,11 @@ function App() {
 
       {/* ENGINEER/SUPERVISOR */}
       <Route path="/staff/login" element={<LoginStaffPage />} />
+
+      {/* ENGINEER */}
+       <Route path="/engineer/my-projects" element={<MyProjects />} />
+       <Route path="/engineer/project-reports" element={<ProjectReports />} />
+        <Route path="/engineer/profile" element={<ProfileDeatiles />} />
 
       <Route path="/admin/create-project" element={<CreateProjectPage />} />
       <Route path="/admin/projects" element={<ProjectsPage />} />

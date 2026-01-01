@@ -13,7 +13,6 @@ export const useLandingPage = () => {
     }
 
     sessionStorage.setItem('userRole', role)
-
     if (role === 'admin') {
       navigate('/admin/login')
     } else {
