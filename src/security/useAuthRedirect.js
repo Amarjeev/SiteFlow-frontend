@@ -10,7 +10,8 @@ export const useAuthRedirect = () => {
     const publicPaths = [
       '/admin/login',
       '/admin/signup',
-      '/admin/forgot-password'
+      '/admin/forgot-password',
+      '/staff/login'
     ]
 
     if (!publicPaths.includes(location.pathname)) return

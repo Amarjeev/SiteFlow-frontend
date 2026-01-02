@@ -40,7 +40,7 @@ function ProjectDetails({ projectState }) {
     if (project?.projectStatus) {
       setNewStatus(project.projectStatus);
     }
-  }, [project?.projectStatus,setNewStatus]);
+  }, [project?.projectStatus, setNewStatus]);
 
   /* ================= EMPTY / LOADING STATE ================= */
 
@@ -90,7 +90,11 @@ function ProjectDetails({ projectState }) {
             <DetailRow label="End Date" value={formatDate(project.endDate)} />
             <DetailRow
               label="Completed At"
-              value={formatDate(project.completedAt) || "Work in progress"}
+              value={
+                project?.completedAt
+                  ? formatDate(project.completedAt)
+                  : "Work in progress"
+              }
             />
 
             {/* Status */}

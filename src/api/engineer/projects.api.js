@@ -20,20 +20,17 @@ export const fetchProjectReport = async (id, date) => {
   return response.data
 }
 
-
 export const updateDailyProjectProgressEngApi = async payload => {
   const response = await api.post('/engineer/projects/daily-progress', payload)
 
   return response.data.success === true
 }
 
-
 export const editProjectReportEngApi = async payload => {
   const response = await api.post('/engineer/project-reports/edit', payload)
 
   return response.data.success === true
 }
-
 
 export const delProjectReportEngApi = async payload => {
   const response = await api.post('/engineer/project-reports/delete', payload)

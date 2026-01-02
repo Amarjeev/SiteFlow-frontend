@@ -1,16 +1,16 @@
 import { showError } from '../../../utils/toast'
 
 export const createStaffProfileValidation = staff => {
-  const { name, email, mobile, role } = staff
+  const { username, email, mobile, role } = staff
 
   // Name
-  if (!name?.trim()) {
+  if (!username?.trim()) {
     showError('Name is required')
     return false
   }
 
   // Name length validation
-  if (name.trim().length < 3 || name.trim().length > 100) {
+  if (username.trim().length < 3 || username.trim().length > 100) {
     showError('Name must be between 3 and 100 characters')
     return false
   }
