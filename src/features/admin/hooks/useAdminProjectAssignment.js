@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import {
-  ensureStaffAndProjectExistApi,
-  assignProjectToStaffsApi
-} from '../../../api/admin/assigneProjects.api'
+  validateStaffAndProjectApi,
+  assignProjectToStaffApi
+} from '../../../api/admin/staffProjectAssignment.api'
 import { showSuccess } from '../../../utils/toast'
 
-export const useAssigneProjects = () => {
+// ---------- Admin Project Assignment Hook ----------
+export const useAdminProjectAssignment = () => {
+  // ---------- States ----------
   const [staffId, setStaffId] = useState(
     () => sessionStorage.getItem('staffId') || ''
   )
@@ -20,9 +22,7 @@ export const useAssigneProjects = () => {
   const [loading, setLoading] = useState(false)
   const [isLocked, setIsLocked] = useState(false)
 
-  /* =======================
-   * Helpers
-   * ======================= */
+  // ---------- Helpers ----------
   const getErrorMessage = error =>
     error?.response?.data?.message || 'Something went wrong'
 
@@ -40,15 +40,13 @@ export const useAssigneProjects = () => {
     sessionStorage.removeItem('projectId')
   }
 
-  /* =======================
-   * API Handlers
-   * ======================= */
+  // ---------- API: Validate Staff & Project ----------
   const handleEnsureStaffAndProjectExist = async payload => {
     try {
       setLoading(true)
       setErrorMessage(null)
 
-      const res = await ensureStaffAndProjectExistApi(payload)
+      const res = await validateStaffAndProjectApi(payload)
       const { project, staffProfile } = res
 
       setProjectDetails(project)
@@ -64,10 +62,10 @@ export const useAssigneProjects = () => {
     }
   }
 
+  // ---------- API: Assign Project to Staff ----------
   const handleAssignProjectToStaff = async payload => {
-         
     try {
-      const isSuccess = await assignProjectToStaffsApi(payload)
+      const isSuccess = await assignProjectToStaffApi(payload)
 
       if (isSuccess) {
         showSuccess('Project created successfully')
@@ -80,16 +78,14 @@ export const useAssigneProjects = () => {
     }
   }
 
-  /* =======================
-   * Form Handlers
-   * ======================= */
+  // ---------- Form Submit Handler ----------
   const handleSubmit = e => {
     e.preventDefault()
 
     const validStaffId = isValidStaffId(staffId)
     const validProjectId = isValidProjectId(projectId)
 
-    //  Validate & lock
+    // ---------- Step 1: Validate & Lock ----------
     if (validStaffId && validProjectId && !isLocked) {
       const trimmedStaffId = staffId.trim()
       const trimmedProjectId = projectId.trim()
@@ -106,7 +102,7 @@ export const useAssigneProjects = () => {
       })
     }
 
-    // Step 2: Assign project
+    // ---------- Step 2: Assign Project ----------
     if (
       validStaffId &&
       validProjectId &&
@@ -114,7 +110,6 @@ export const useAssigneProjects = () => {
       staffDetails &&
       projectDetails
     ) {
-
       handleAssignProjectToStaff({
         userId: staffId.trim(),
         projectId: projectId.trim()
@@ -122,22 +117,20 @@ export const useAssigneProjects = () => {
     }
   }
 
-  /* =======================
-   * re-fentch when refresh page
-   * ======================= */
+  // ---------- Re-fetch on Page Refresh ----------
   useEffect(() => {
     const validStaffId = isValidStaffId(staffId)
     const validProjectId = isValidProjectId(projectId)
 
-    // 🔁 Re-fetch on page refresh
     if (validStaffId && validProjectId && !staffDetails && !projectDetails) {
       handleEnsureStaffAndProjectExist({
         userId: staffId.trim(),
         projectId: projectId.trim()
       })
     }
-  },[])
+  }, [])
 
+  // ---------- Hook Return ----------
   return {
     staffId,
     setStaffId,

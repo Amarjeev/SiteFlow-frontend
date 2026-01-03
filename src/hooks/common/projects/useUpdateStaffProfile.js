@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { createStaffProfileValidation } from '../../admin/validations/createStaffProfile.validation'
+import { createStaffProfileValidation } from '../../../features/admin/validations/createStaffProfile.validation'
 import {
-  editEngProfileApi,
-  updateEngPwdApi,
-  logoutEngPwdApi
-} from '../../../api/engineer/engProfile.api'
+  logoutStaffApi,
+  updateStaffPasswordApi,
+  updateStaffProfileApi
+} from '../../../api/staff/staffProfile.api'
 import { showError, showSuccess } from '../../../utils/toast'
 
-export const useEditEngProfile = (engineerProfile, refetchProfile) => {
+// ---------- Staff Profile Hook ----------
+export const useUpdateStaffProfile = (engineerProfile, refetchProfile) => {
+  // ---------- Router ----------
   const navigate = useNavigate()
 
-  /* ================= STATE ================= */
-
+  // ---------- States ----------
   const [profile, setProfile] = useState(engineerProfile || {})
   const [isEditing, setIsEditing] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -26,17 +27,17 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
   const [updateLoadingProfile, setUpdateLoadingProfile] = useState(false)
   const [pwdLoadingProfile, setPwdLoadingProfile] = useState(false)
 
-  /* ================= HANDLERS ================= */
-
+  // ---------- Sync Profile On Cancel / Refresh ----------
   useEffect(() => {
     if (!isEditing && engineerProfile) {
       setProfile(engineerProfile)
     }
   }, [engineerProfile, isEditing])
 
+  // ---------- Logout ----------
   const handleLogout = async () => {
     try {
-      await logoutEngPwdApi()
+      await logoutStaffApi()
       navigate('/', { replace: true })
       sessionStorage.clear()
     } catch {
@@ -46,21 +47,25 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
     }
   }
 
+  // ---------- Profile Change ----------
   const handleProfileChange = e => {
     const { name, value } = e.target
     setProfile(prev => ({ ...prev, [name]: value }))
   }
 
+  // ---------- Password Change ----------
   const handlePasswordChange = e => {
     const { name, value } = e.target
     setPasswords(prev => ({ ...prev, [name]: value }))
   }
 
+  // ---------- Cancel Edit ----------
   const handleCancel = () => {
     setIsEditing(false)
     setProfile(engineerProfile)
   }
 
+  // ---------- Save Profile ----------
   const handleSaveProfile = async () => {
     if (!createStaffProfileValidation(profile)) return
 
@@ -68,7 +73,7 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
       setUpdateLoadingProfile(true)
       setUpdateError(null)
 
-      await editEngProfileApi(profile)
+      await updateStaffProfileApi(profile)
 
       showSuccess('Profile updated successfully')
 
@@ -82,6 +87,7 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
     }
   }
 
+  // ---------- Change Password ----------
   const handleChangePassword = async () => {
     const trimmedPassword = passwords.newPassword.trim()
 
@@ -99,7 +105,7 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
       setPwdLoadingProfile(true)
       setUpdateError(null)
 
-      await updateEngPwdApi({ password: passwords.newPassword })
+      await updateStaffPasswordApi({ password: passwords.newPassword })
 
       showSuccess('Password updated successfully')
 
@@ -117,8 +123,7 @@ export const useEditEngProfile = (engineerProfile, refetchProfile) => {
     }
   }
 
-  /* ================= RETURN ================= */
-
+  // ---------- Hook Return ----------
   return {
     profile,
     setProfile,

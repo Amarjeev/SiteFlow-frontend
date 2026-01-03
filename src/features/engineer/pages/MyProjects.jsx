@@ -1,10 +1,10 @@
 import StaffNavbar from "../../../layouts/navbar/EngineerNavbar";
 import ProjectList from "../components/ProjectList";
 import ProjectDetails from "../components/ProjectDetails";
-import { useEngineerProjects } from "../hooks/useFetchProjectsEng";
+import { useStaffAssignedProjects } from "../../../hooks/common/projects/useStaffAssignedProjects";
 
 function MyProjects() {
-  const projectState = useEngineerProjects();
+  const projectState =useStaffAssignedProjects();
 
   return (
     <div className="min-h-screen bg-gray-100">

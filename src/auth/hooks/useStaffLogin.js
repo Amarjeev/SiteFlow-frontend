@@ -7,18 +7,19 @@ import {
   staffCreatePasswordApi
 } from '../../api/auth/staffLogin.api'
 
-/**
- * Login flow states
- */
+// ---------- Staff Login Flow States ----------
 export const STAFF_LOGIN_STATUS = {
   ENTER_EMAIL: 'ENTER_EMAIL',
   ENTER_PASSWORD: 'ENTER_PASSWORD',
   SET_PASSWORD: 'SET_PASSWORD'
 }
 
+// ---------- Staff Login Hook ----------
 export const useStaffLogin = () => {
+  // ---------- Router ----------
   const navigate = useNavigate()
 
+  // ---------- States ----------
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -36,34 +37,28 @@ export const useStaffLogin = () => {
 
   const [loginStatus, setLoginStatus] = useState(() => {
     return (
-      sessionStorage.getItem('loginStatus') || STAFF_LOGIN_STATUS.ENTER_EMAIL
+      sessionStorage.getItem('loginStatus') ||
+      STAFF_LOGIN_STATUS.ENTER_EMAIL
     )
   })
 
-  /**
-   * Persist login step
-   */
+  // ---------- Persist Login Step ----------
   useEffect(() => {
     sessionStorage.setItem('loginStatus', loginStatus)
   }, [loginStatus])
 
-  /**
-   * Persist email
-   */
+  // ---------- Persist Email ----------
   useEffect(() => {
     if (email) {
       sessionStorage.setItem('loginEmail', email.trim())
     }
   }, [email])
 
-  /**
-   * Form submit handler
-   */
+  // ---------- Submit Handler ----------
   const handleSubmit = async e => {
     e.preventDefault()
 
-    /* -------------------- VALIDATION -------------------- */
-
+    // ---------- Validation ----------
     if (!userRole) {
       navigate('/', { replace: true })
     }
@@ -109,15 +104,19 @@ export const useStaffLogin = () => {
       }
     }
 
-    /* -------------------- API FLOW -------------------- */
-
+    // ---------- API Flow ----------
     try {
       setLoading(true)
 
       switch (loginStatus) {
         case STAFF_LOGIN_STATUS.ENTER_EMAIL: {
           setErrorMessage('')
-          const response = await staffVerifyAccountApi({email,role:userRole})
+
+          const response = await staffVerifyAccountApi({
+            email,
+            role: userRole
+          })
+
           const { success, hasPassword } = response
 
           if (success) {
@@ -130,11 +129,13 @@ export const useStaffLogin = () => {
 
         case STAFF_LOGIN_STATUS.ENTER_PASSWORD: {
           setErrorMessage('')
+
           const success = await staffVerifyPasswordApi({
             email,
             password,
             role: userRole
           })
+
           if (success) {
             navigate('/auth/verify-otp')
           } else {
@@ -148,6 +149,7 @@ export const useStaffLogin = () => {
             email,
             password: newPassword
           }
+
           setErrorMessage('')
 
           const success = await staffCreatePasswordApi(payload)
@@ -168,12 +170,15 @@ export const useStaffLogin = () => {
           break
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Something went wrong')
+      setErrorMessage(
+        error.response?.data?.message || 'Something went wrong'
+      )
     } finally {
       setLoading(false)
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     errorMessage,
     loading,

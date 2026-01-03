@@ -1,4 +1,4 @@
-import { useEditStaffProfile } from "../hooks/useEditStaffProfile";
+import { useAdminStaffProfileDetails } from "../hooks/useAdminStaffProfileDetails";
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
 
 function StaffProfileEdit() {
@@ -19,7 +19,7 @@ function StaffProfileEdit() {
     setSearchType,
     searchValue,
     setSearchValue,
-  } = useEditStaffProfile();
+  } = useAdminStaffProfileDetails();
 
   return (
     <>

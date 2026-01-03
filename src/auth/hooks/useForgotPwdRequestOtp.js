@@ -3,7 +3,9 @@ import { requestOtpValidation } from '../validations/resetPassword.validation'
 import { forgotPwdRequestOtpApi } from '../../api/auth/forgotPassword.api'
 import { useNavigate } from 'react-router-dom'
 
+// ---------- Forgot Password: Request OTP Hook ----------
 export const useForgotPwdRequestOtp = () => {
+  // ---------- States ----------
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [otp, setOtp] = useState('')
@@ -13,11 +15,16 @@ export const useForgotPwdRequestOtp = () => {
     () => sessionStorage.getItem('userRole') || ''
   )
 
+  // ---------- Router ----------
   const navigate = useNavigate()
 
+  // ---------- Request OTP ----------
   const handleRequestOtp = async e => {
     e.preventDefault()
+
+    // ---------- Validation ----------
     if (!requestOtpValidation(email, role)) return
+
     try {
       setLoading(true)
 
@@ -41,6 +48,7 @@ export const useForgotPwdRequestOtp = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     setEmail,
     email,
@@ -50,6 +58,6 @@ export const useForgotPwdRequestOtp = () => {
     otp,
     handleRequestOtp,
     loading,
-    errorMessage,
+    errorMessage
   }
 }

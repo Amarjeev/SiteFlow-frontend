@@ -1,9 +1,9 @@
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
-import { useCreateStaffProfile } from "../hooks/useCreateStaffProfile";
+import { useAdminCreateStaffProfile } from "../hooks/useAdminCreateStaffProfile";
 
 function CreateStaffProfile() {
   const { formData, errorMessage, loading, handleChange, handleSubmit } =
-    useCreateStaffProfile();
+    useAdminCreateStaffProfile();
 
   return (
     <>

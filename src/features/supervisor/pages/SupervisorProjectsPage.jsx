@@ -1,10 +1,10 @@
 import ProjectDetailsSup from "../components/ProjectDetailsSup";
 import ProjectListSup from "../components/ProjectListSup";
-import { useEngineerProjects } from "../../engineer/hooks/useFetchProjectsEng";
 import SupervisorNavbar from "../../../layouts/navbar/SupervisorNavbar";
+import { useStaffAssignedProjects } from "../../../hooks/common/projects/useStaffAssignedProjects";
 
 function SupervisorProjectsPage() {
-  const projectState = useEngineerProjects();
+  const projectState = useStaffAssignedProjects();
   return (
     <div className="min-h-screen bg-black">
       <SupervisorNavbar />

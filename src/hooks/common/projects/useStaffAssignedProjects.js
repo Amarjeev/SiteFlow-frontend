@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import {
-  fetchProjectsEngApi,
-  fetchProjectWithIdEngApi
-} from '../../../api/engineer/projects.api'
+  fetchStaffAssignedProjectApi,
+  fetchStaffAssignedProjectsApi
+} from '../../../api/staff/projects.api'
 import { useCallback } from 'react'
 
-export const useEngineerProjects = () => {
+/* =========================================================
+   SHARED HOOK : ENGINEER & SUPERVISOR PROJECT MANAGEMENT
+   ========================================================= */
+
+export const useStaffAssignedProjects = () => {
   const [searchProjectId, setSearchProjectId] = useState('')
   const [statusFilter, setStatusFilter] = useState(() => {
     return sessionStorage.getItem('statusFilter') || 'ongoing'
@@ -35,9 +39,10 @@ export const useEngineerProjects = () => {
       setListLoading(true)
       setListError(null)
 
-      const response = await fetchProjectsEngApi(payload)
+      const response = await fetchStaffAssignedProjectsApi(payload)
       setProjects(response?.projects || [])
     } catch (error) {
+      console.log('fbbbbbbbbbsd', error.response)
       setListError(error?.response?.data?.message || 'Failed to fetch projects')
     } finally {
       setListLoading(false)
@@ -51,9 +56,10 @@ export const useEngineerProjects = () => {
       setDetailsLoading(true)
       setDetailsError(null)
 
-      const response = await fetchProjectWithIdEngApi(activeProjectId)
+      const response = await fetchStaffAssignedProjectApi(activeProjectId)
       setSelectedProjectDetails(response?.project)
     } catch (error) {
+      console.log(error.response)
       setDetailsError(
         error?.response?.data?.message || 'Failed to fetch project details'
       )

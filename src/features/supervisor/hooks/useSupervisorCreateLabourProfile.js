@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { validateLabourProfile } from '../validations/LabourProfile.validation'
-import { createdLabourProfileSupApi } from '../../../api/supervisor/labour.api'
+import { createLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
 import { showSuccess } from '../../../utils/toast'
 
-export const useCreateLabourProfile = () => {
+// ---------- Supervisor Create Labour Profile Hook ----------
+export const useSupervisorCreateLabourProfile = () => {
+  // ---------- States ----------
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [createdLabour, setCreatedLabour] = useState(null)
@@ -14,14 +16,17 @@ export const useCreateLabourProfile = () => {
     mobile: ''
   })
 
+  // ---------- Input Change ----------
   const handleChange = e => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  // ---------- Submit Handler ----------
   const handleSubmit = async e => {
     e.preventDefault()
 
+    // ---------- Validation ----------
     const error = validateLabourProfile(formData)
 
     if (error) {
@@ -38,10 +43,13 @@ export const useCreateLabourProfile = () => {
         mobile: formData.mobile.trim()
       }
 
-      const response = await createdLabourProfileSupApi(payload)
+      const response = await createLabourProfileSupApi(payload)
+
       showSuccess('Labour profile created successfully')
+
       setCreatedLabour(response?.data)
       setShowPoster(true)
+
       setFormData({ username: '', mobile: '' })
     } catch (error) {
       setErrorMessage(
@@ -52,15 +60,14 @@ export const useCreateLabourProfile = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     formData,
     loading,
     errorMessage,
-
     createdLabour,
     showPoster,
     setShowPoster,
-
     handleChange,
     handleSubmit
   }

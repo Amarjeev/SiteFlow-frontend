@@ -1,5 +1,5 @@
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
-import { useRestrictLabourAccess } from "../hooks/useRestrictLabourAccess";
+import { useAdminLabourAccessControl } from "../hooks/useAdminLabourAccessControl";
 
 function LaboursProfile() {
   const {
@@ -12,7 +12,7 @@ function LaboursProfile() {
     errorMessage,
     handleSearch,
     handleSaveStatus,
-  } = useRestrictLabourAccess();
+  } = useAdminLabourAccessControl();
 
   return (
     <>

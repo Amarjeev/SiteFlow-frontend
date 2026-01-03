@@ -1,6 +1,6 @@
 import SupervisorNavbar from "../../../layouts/navbar/SupervisorNavbar";
-import { useCreateLabourProfile } from "../hooks/useCreateLabourProfile";
-import { useEditLabourProfile } from "../hooks/useEditLabourProfile";
+import {useSupervisorCreateLabourProfile } from "../hooks/useSupervisorCreateLabourProfile";
+import { useSupervisorLabourProfile } from "../hooks/useSupervisorLabourProfile";
 
 /* ================= MAIN COMPONENT ================= */
 
@@ -14,7 +14,7 @@ function CreateLabourProfile() {
     setShowPoster,
     handleChange,
     handleSubmit,
-  } = useCreateLabourProfile();
+  } = useSupervisorCreateLabourProfile();
 
   const {
     isUpdating,
@@ -30,7 +30,7 @@ function CreateLabourProfile() {
     setIsInlineEdit,
     isDeleting,
     handleDeleteProfile,
-  } = useEditLabourProfile();
+  } = useSupervisorLabourProfile();
 
   const canEdit = true;
 

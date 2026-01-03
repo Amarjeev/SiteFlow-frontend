@@ -1,8 +1,7 @@
-import React from "react";
 import ProjectCard from "../components/ProjectCard";
 import ProjectSearchBar from "../components/ProjectSearchBar";
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
-import { useFetchProjects } from "../hooks/useFetchProjects";
+import { useAdminProjectListWithFilters } from "../hooks/useAdminProjectListWithFilters";
 
 function ProjectsPage() {
   const {
@@ -17,7 +16,7 @@ function ProjectsPage() {
     hasMore,
     loading,
     handleClear,
-  } = useFetchProjects();
+  } = useAdminProjectListWithFilters();
 
   return (
     <div>

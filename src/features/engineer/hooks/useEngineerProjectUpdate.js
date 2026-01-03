@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { updateDailyProjectProgressEngApi } from '../../../api/engineer/projects.api'
+import { updateEngineerProjectReportApi } from '../../../api/engineer/projectReports.api'
 import { showSuccess } from '../../../utils/toast'
 import { projectUpdateEngValidation } from '../validations/ProjectUpdate.validation'
 
-export const useProjectUpdatesEng = () => {
+// ---------- Engineer Project Update Hook ----------
+export const useEngineerProjectUpdate = () => {
+  // ---------- States ----------
   const [updateText, setUpdateText] = useState('')
   const [newStatus, setNewStatus] = useState('')
   const [updateDate, setUpdateDate] = useState(
@@ -16,6 +18,7 @@ export const useProjectUpdatesEng = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  // ---------- Submit Handler ----------
   const handleSubmit = async e => {
     e.preventDefault()
     setValidationError('')
@@ -27,6 +30,7 @@ export const useProjectUpdatesEng = () => {
       status: newStatus
     }
 
+    // ---------- Validation ----------
     const error = projectUpdateEngValidation({
       projectId,
       newStatus,
@@ -42,7 +46,7 @@ export const useProjectUpdatesEng = () => {
       setLoading(true)
       setErrorMessage(null)
 
-      const success = await updateDailyProjectProgressEngApi(payload)
+      const success = await updateEngineerProjectReportApi(payload)
 
       if (success) {
         showSuccess('Project update submitted successfully')
@@ -57,6 +61,7 @@ export const useProjectUpdatesEng = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     updateText,
     setUpdateText,

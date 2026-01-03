@@ -1,13 +1,14 @@
 import api from '../../config/api.config'
 
-export const assignProjectToStaffsApi = async payload => {
+// ---------- Assign Project To Staff ----------
+export const assignProjectToStaffApi = async payload => {
   const response = await api.post('/admin/assign-projects/staff', payload)
 
   return response.data.success === true
 }
 
-
-export const ensureStaffAndProjectExistApi = async payload => {
+// ---------- Validate Staff & Project ----------
+export const validateStaffAndProjectApi = async payload => {
   const response = await api.post(
     '/admin/assign-projects/validate',
     payload

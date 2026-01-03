@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useProjectUpdatesEng } from "../hooks/useProjectUpdatesEng";
+import { useEngineerProjectUpdate } from "../hooks/useEngineerProjectUpdate";
 
 function ProjectDetails({ projectState }) {
   const { selectedProjectDetails, detailsLoading, detailsError } = projectState;
@@ -26,7 +26,7 @@ function ProjectDetails({ projectState }) {
     handleSubmit,
     errorMessage,
     loading,
-  } = useProjectUpdatesEng();
+  } = useEngineerProjectUpdate();
 
   /* ================= SET PROJECT ID ================= */
 

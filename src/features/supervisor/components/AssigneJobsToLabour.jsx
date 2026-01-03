@@ -1,6 +1,6 @@
 import SupervisorNavbar from "../../../layouts/navbar/SupervisorNavbar";
-import { useVerifyProjectAndLabour } from "../hooks/useVerifyProjectAndLabour";
-import { useAssigneJobsToLabour } from "../hooks/useAssigneJobsToLabour";
+import { useSupervisorVerifyProjectAndLabour } from "../hooks/useSupervisorVerifyProjectAndLabour";
+import { useSupervisorAssignJobToLabour } from "../hooks/useSupervisorAssignJobToLabour";
 import { useEffect } from "react";
 
 function AssigneJobsToLabour() {
@@ -15,7 +15,7 @@ function AssigneJobsToLabour() {
     loadingVerify,
     handleVerify,
     handleClear,
-  } = useVerifyProjectAndLabour();
+  } = useSupervisorVerifyProjectAndLabour();
 
   const {
     assignJobData,
@@ -24,7 +24,7 @@ function AssigneJobsToLabour() {
     handleChange,
     handleAssignJob,
     setIds,
-  } = useAssigneJobsToLabour();
+  } = useSupervisorAssignJobToLabour();
 
   useEffect(() => {
     if (project && labour) {

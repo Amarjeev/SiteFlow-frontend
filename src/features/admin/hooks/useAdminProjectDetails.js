@@ -8,10 +8,13 @@ import { showSuccess } from '../../../utils/toast'
 import { createProjectValidation } from '../validations/createProject.validation'
 import { useParams, useNavigate } from 'react-router-dom'
 
-export const useEditProject = () => {
+// ---------- Admin Project Details Hook ----------
+export const useAdminProjectDetails = () => {
+  // ---------- Router ----------
   const { projectId } = useParams()
   const navigate = useNavigate()
 
+  // ---------- States ----------
   const [project, setProject] = useState(null)
   const [originalProject, setOriginalProject] = useState(null)
 
@@ -19,7 +22,7 @@ export const useEditProject = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  /* ------------------ FETCH PROJECT FROM URL ------------------ */
+  // ---------- Fetch Project From URL ----------
   useEffect(() => {
     if (!projectId) {
       navigate('/admin/projects')
@@ -51,7 +54,7 @@ export const useEditProject = () => {
     fetchProject()
   }, [projectId, navigate])
 
-  /* ------------------ EDIT ------------------ */
+  // ---------- Edit ----------
   const startEditing = () => {
     if (!project) {
       navigate('/admin/projects')
@@ -73,7 +76,7 @@ export const useEditProject = () => {
     }))
   }
 
-  /* ------------------ SAVE ------------------ */
+  // ---------- Save ----------
   const saveChanges = async () => {
     if (!project) return
 
@@ -111,12 +114,13 @@ export const useEditProject = () => {
     }
   }
 
-  /* ------------------ Delete ------------------ */
+  // ---------- Delete ----------
   const handleDelete = async () => {
     if (!projectId) {
       navigate('/admin/projects')
       return
     }
+
     const isConfirmed = window.confirm(
       'Are you sure you want to delete this active project? This action cannot be undone.'
     )
@@ -125,6 +129,7 @@ export const useEditProject = () => {
 
     try {
       setLoading(true)
+
       const isSuccess = await deleteProjectApi(projectId)
       if (isSuccess) {
         showSuccess('Project delete successfully')
@@ -139,6 +144,7 @@ export const useEditProject = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     project,
     handleChange,

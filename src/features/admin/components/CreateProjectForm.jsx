@@ -1,8 +1,8 @@
-import { useCreateProject } from "../hooks/useCreateProject";
+import { useAdminCreateProject } from "../hooks/useAdminCreateProject";
 
 function CreateProjectForm() {
   const { project, handleSubmit, handleChange, errorMessage, loading } =
-    useCreateProject();
+    useAdminCreateProject();
 
   return (
     <div className="bg-white border-4 rounded-lg shadow relative m-10">

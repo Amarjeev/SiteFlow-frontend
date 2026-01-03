@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
-import { verifyProjectAndLabourSupApi } from '../../../api/supervisor/labour.api'
-import { useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { verifyProjectAndLabourSupApi } from '../../../api/supervisor/jobAssignment.api'
 
-export const useVerifyProjectAndLabour = () => {
+// ---------- Supervisor Verify Project & Labour Hook ----------
+export const useSupervisorVerifyProjectAndLabour = () => {
+  // ---------- States ----------
   const [projectId, setProjectId] = useState(() => {
     return localStorage.getItem('assignJob_projectId') || ''
   })
@@ -16,15 +17,18 @@ export const useVerifyProjectAndLabour = () => {
   const [verifyError, setVerifyError] = useState(null)
   const [loadingVerify, setLoadingVerify] = useState(false)
 
+  // ---------- Persist IDs ----------
   useEffect(() => {
     if (projectId) {
       localStorage.setItem('assignJob_projectId', projectId)
     }
+
     if (labourId) {
       localStorage.setItem('assignJob_labourId', labourId)
     }
   }, [projectId, labourId])
 
+  // ---------- Verify Project & Labour ----------
   const handleVerify = useCallback(async () => {
     if (!projectId.trim()) {
       setVerifyError('Please enter the Project ID')
@@ -60,7 +64,9 @@ export const useVerifyProjectAndLabour = () => {
     }
   }, [projectId, labourId])
 
+  // ---------- Clear Data ----------
   const handleClear = useCallback(() => {
+    setLoadingVerify(null)
     setProjectId('')
     setLabourId('')
     setProject(null)
@@ -72,6 +78,7 @@ export const useVerifyProjectAndLabour = () => {
     localStorage.removeItem('assignJob_labourId')
   }, [])
 
+  // ---------- Auto Verify On Load ----------
   useEffect(() => {
     if (projectId && labourId) {
       handleVerify()
@@ -79,6 +86,7 @@ export const useVerifyProjectAndLabour = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // ---------- Hook Return ----------
   return {
     projectId,
     setProjectId,

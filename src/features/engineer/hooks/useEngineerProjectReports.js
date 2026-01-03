@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
-  fetchProjectWithIdEngApi,
-  fetchProjectReport,
-  editProjectReportEngApi,
-  delProjectReportEngApi
-} from '../../../api/engineer/projects.api'
-import { useCallback } from 'react'
+  deleteEngineerProjectReportApi,
+  updateEngineerProjectReportApi,
+  fetchEngineerProjectReportsApi
+} from '../../../api/engineer/projectReports.api'
 import { showSuccess } from '../../../utils/toast'
+import { fetchProjectbyIdApi } from '../../../api/admin/Projects.api'
 
-export const useProjectReportEdit = () => {
+// ---------- Engineer Project Reports Hook ----------
+export const useEngineerProjectReports = () => {
+  // ---------- States ----------
   const [projectId, setProjectId] = useState(() => {
     return sessionStorage.getItem('projectId') || ''
   })
@@ -23,14 +24,14 @@ export const useProjectReportEdit = () => {
   const [editLoading, setEditLoading] = useState(false)
   const [editError, setEditError] = useState(null)
   const [deleteLoading, setDeleteLoading] = useState(false)
+
   const [editForm, setEditForm] = useState({
     updateDate: '',
     progressSummary: '',
     projectStatus: ''
   })
 
-  /* ================= FETCH PROJECT ================= */
-
+  // ---------- Fetch Project & Reports ----------
   const handleFetchProject = useCallback(async () => {
     if (projectId.trim().length !== 17) return
 
@@ -40,8 +41,8 @@ export const useProjectReportEdit = () => {
 
     try {
       const [project, report] = await Promise.all([
-        fetchProjectWithIdEngApi(projectId),
-        fetchProjectReport(projectId, filterDate)
+        fetchProjectbyIdApi(projectId),
+        fetchEngineerProjectReportsApi(projectId, filterDate)
       ])
 
       setProjectDetails(project?.project)
@@ -55,31 +56,31 @@ export const useProjectReportEdit = () => {
     }
   }, [projectId, filterDate])
 
-  /* ================= PERSIST PROJECT ID ================= */
-
+  // ---------- Persist Project ID ----------
   useEffect(() => {
     if (projectId.trim().length !== 17) return
     sessionStorage.setItem('projectId', projectId)
   }, [projectId])
 
-  /* ================= AUTO FETCH ON LOAD ================= */
-
+  // ---------- Auto Fetch On Load ----------
   useEffect(() => {
     setProjectDetails(null)
     setProjectReport(null)
+
     if (projectId.trim().length !== 17) return
     handleFetchProject()
   }, [handleFetchProject, projectId])
 
-  /* ================= EDIT SECTION ================= */
-
-  /* ================= FILTER ================= */
+  // ---------- Filter Updates ----------
   const filteredUpdates = filterDate
-    ? projectReport?.filter(u => u.updateDate?.slice(0, 10) === filterDate)
+    ? projectReport?.filter(
+        u => u.updateDate?.slice(0, 10) === filterDate
+      )
     : projectReport
 
-  /* ================= HELPERS ================= */
-  const formatDate = date => (date ? new Date(date).toLocaleDateString() : '-')
+  // ---------- Helpers ----------
+  const formatDate = date =>
+    date ? new Date(date).toLocaleDateString() : '-'
 
   const startEdit = update => {
     setEditingId(update._id)
@@ -99,6 +100,7 @@ export const useProjectReportEdit = () => {
     setEditForm(prev => ({ ...prev, [name]: value }))
   }
 
+  // ---------- Save Edit ----------
   const handleSaveEdit = async updateId => {
     try {
       if (!updateId || !editForm) return
@@ -109,15 +111,17 @@ export const useProjectReportEdit = () => {
         setEditError('Progress summary must be between 10 and 150 characters')
         return
       }
+
       const payload = {
         id: updateId,
         projectId,
         editForm
       }
+
       setEditLoading(true)
       setEditError(null)
 
-      const success = await editProjectReportEngApi(payload)
+      const success = await updateEngineerProjectReportApi(payload)
 
       if (success) {
         showSuccess('Project report updated successfully')
@@ -133,7 +137,7 @@ export const useProjectReportEdit = () => {
     }
   }
 
-  /* ================= DELETE (SOFT DELETE) ================= */
+  // ---------- Delete Report (Soft Delete) ----------
   const handleDelete = async updateId => {
     if (!updateId) return
 
@@ -151,12 +155,11 @@ export const useProjectReportEdit = () => {
         projectId
       }
 
-      const success = await delProjectReportEngApi(payload)
+      const success = await deleteEngineerProjectReportApi(payload)
 
       if (success) {
         showSuccess('Project report deleted successfully')
         await handleFetchProject()
-        return
       }
     } catch (error) {
       console.error(error.response)
@@ -168,6 +171,7 @@ export const useProjectReportEdit = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     projectId,
     setProjectId,

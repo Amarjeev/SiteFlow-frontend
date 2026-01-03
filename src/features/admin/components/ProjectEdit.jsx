@@ -1,5 +1,5 @@
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
-import { useEditProject } from "../hooks/useEditProject";
+import { useAdminProjectDetails } from "../hooks/useAdminProjectDetails";
 
 function ProjectEdit() {
   const {
@@ -12,7 +12,7 @@ function ProjectEdit() {
     errorMessage,
     saveChanges,
     handleDelete
-  } = useEditProject();
+  } = useAdminProjectDetails();
 
   const inputBase =
     "mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/20";

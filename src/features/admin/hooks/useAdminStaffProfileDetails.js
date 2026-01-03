@@ -3,11 +3,13 @@ import {
   fetchStaffProfileApi,
   updateStaffProfileApi,
   deleteStaffProfileApi
-} from '../../../api/admin/staff.api'
+} from '../../../api/admin/staffProfile.api'
 import { createStaffProfileValidation } from '../validations/createStaffProfile.validation'
 import { showSuccess } from '../../../utils/toast'
 
-export const useEditStaffProfile = () => {
+// ---------- Admin Staff Profile Details Hook ----------
+export const useAdminStaffProfileDetails = () => {
+  // ---------- States ----------
   const [staff, setStaff] = useState(null)
   const [editableStaff, setEditableStaff] = useState(null)
 
@@ -15,6 +17,7 @@ export const useEditStaffProfile = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  // ---------- Search Persistence ----------
   const [searchType, setSearchType] = useState(
     () => sessionStorage.getItem('searchType') || 'userId'
   )
@@ -23,6 +26,7 @@ export const useEditStaffProfile = () => {
     () => sessionStorage.getItem('searchValue') || ''
   )
 
+  // ---------- Persist Search On Change ----------
   useEffect(() => {
     if (searchType) {
       sessionStorage.setItem('searchType', searchType.trim())
@@ -34,7 +38,7 @@ export const useEditStaffProfile = () => {
     }
   }, [searchType, searchValue])
 
-  /* ================= SEARCH ================= */
+  // ---------- Search ----------
   const handleSearch = async () => {
     if (!searchValue?.trim()) return
 
@@ -61,13 +65,13 @@ export const useEditStaffProfile = () => {
     }
   }
 
-  //re-fetch when page refresh
+  // ---------- Re-fetch On Page Refresh ----------
   useEffect(() => {
     if (!searchValue.trim()) return
     handleSearch()
-  }, [handleSearch])
+  }, [])
 
-  /* ================= EDIT ================= */
+  // ---------- Edit ----------
   const handleEdit = () => {
     setEditableStaff(staff)
     setIsEditing(true)
@@ -82,7 +86,7 @@ export const useEditStaffProfile = () => {
     }))
   }
 
-  /* ================= SAVE ================= */
+  // ---------- Save ----------
   const handleSave = async () => {
     try {
       setErrorMessage(null)
@@ -104,13 +108,13 @@ export const useEditStaffProfile = () => {
     }
   }
 
-  /* ================= CANCEL ================= */
+  // ---------- Cancel ----------
   const handleCancel = () => {
     setEditableStaff(staff)
     setIsEditing(false)
   }
 
-  /* ================= PROJECT REMOVE ================= */
+  // ---------- Remove Assigned Project ----------
   const handleRemoveProject = projectId => {
     setEditableStaff(prev => ({
       ...prev,
@@ -118,7 +122,7 @@ export const useEditStaffProfile = () => {
     }))
   }
 
-  /* ================= DELETE ================= */
+  // ---------- Delete Staff Profile ----------
   const handleDeleteProfile = async () => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this staff profile? This action cannot be undone.'
@@ -132,11 +136,12 @@ export const useEditStaffProfile = () => {
     try {
       setLoading(true)
       setErrorMessage(null)
+
       const isSuccess = await deleteStaffProfileApi(userId)
 
       if (isSuccess) {
         showSuccess('Staff profile deleted successfully')
-        setSearchValue("")
+        setSearchValue('')
         setStaff(null)
         setEditableStaff(null)
         setIsEditing(false)
@@ -152,6 +157,7 @@ export const useEditStaffProfile = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     staff,
     editableStaff,

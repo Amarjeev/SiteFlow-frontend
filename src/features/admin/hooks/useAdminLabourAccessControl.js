@@ -2,17 +2,19 @@ import { useState } from 'react'
 import {
   getLabourProfileApi,
   restrictLabourAccessApi
-} from '../../../api/admin/labourAccessDenied.api'
+} from '../../../api/admin/labourManagement.api'
 import { showSuccess } from '../../../utils/toast'
 
-export const useRestrictLabourAccess = () => {
+// ---------- Admin Labour Access Control Hook ----------
+export const useAdminLabourAccessControl = () => {
+  // ---------- States ----------
   const [labourId, setLabourId] = useState('')
   const [labour, setLabour] = useState(null)
   const [isEditingStatus, setIsEditingStatus] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  /* Search labour by ID or mobile */
+  // ---------- Search Labour (ID / Mobile) ----------
   const handleSearch = async () => {
     const input = labourId.trim().toUpperCase()
     if (!input) return
@@ -37,7 +39,7 @@ export const useRestrictLabourAccess = () => {
     }
   }
 
-  /*  Restrict / Allow labour access */
+  // ---------- Restrict / Restore Labour Access ----------
   const handleSaveStatus = async () => {
     if (!labour.labourId) return
 
@@ -79,6 +81,7 @@ export const useRestrictLabourAccess = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     labourId,
     setLabourId,

@@ -1,6 +1,6 @@
 import StaffNavbar from "../../../layouts/navbar/EngineerNavbar";
-import { useFetchEngProfile } from "../hooks/useFetchEngProfile";
-import { useEditEngProfile } from "../hooks/useEditEngProfile";
+import { useFetchStaffProfile } from "../../../hooks/common/projects/useFetchStaffProfile";
+import { useUpdateStaffProfile } from "../../../hooks/common/projects/useUpdateStaffProfile";
 
 /* ================= MAIN COMPONENT ================= */
 
@@ -10,7 +10,7 @@ function ProfileDetails() {
     fetchLoadingProfile,
     fetchProfileError,
     handleFetchProfile,
-  } = useFetchEngProfile();
+  } = useFetchStaffProfile();
 
   const {
     profile,
@@ -28,7 +28,7 @@ function ProfileDetails() {
     updateLoadingProfile,
     pwdLoadingProfile,
     handleCancel,
-  } = useEditEngProfile(engineerProfile, handleFetchProfile);
+  } = useUpdateStaffProfile(engineerProfile, handleFetchProfile);
 
   /* ================= FETCH LOADING ================= */
 

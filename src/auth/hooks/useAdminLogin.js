@@ -3,14 +3,18 @@ import { adminLoginApi } from '../../api/auth/adminLogin.api'
 import { showError, showSuccess } from '../../utils/toast'
 import { useNavigate } from 'react-router-dom'
 
+// ---------- Admin Login Hook ----------
 export const useAdminLogin = () => {
+  // ---------- States ----------
   const [errorMessage, setErrorMessage] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // ---------- Router ----------
   const navigate = useNavigate()
 
+  // ---------- Submit Handler ----------
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -21,16 +25,19 @@ export const useAdminLogin = () => {
 
     try {
       setLoading(true)
-      const response = await adminLoginApi({ email, password })
 
+      const response = await adminLoginApi({ email, password })
       const { userProfile, success } = response
 
       if (success) {
         showSuccess('Login successful')
-        // Store admin profile (email & name) for Admin Navbar usage
-        sessionStorage.setItem("userEmail",userProfile?.email)
-         sessionStorage.setItem("userName",userProfile?.name)
+
+        // ---------- Persist Admin Info ----------
+        sessionStorage.setItem('userEmail', userProfile?.email)
+        sessionStorage.setItem('userName', userProfile?.name)
+
         navigate('/admin/projects', { replace: true })
+
         setEmail('')
         setPassword('')
         setErrorMessage('')
@@ -43,6 +50,7 @@ export const useAdminLogin = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     errorMessage,
     email,

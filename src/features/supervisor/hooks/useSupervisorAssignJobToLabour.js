@@ -1,9 +1,11 @@
 import { useState, useCallback } from 'react'
 import { validateAssignJob } from '../validations/jobAssigne.validation'
 import { showSuccess } from '../../../utils/toast'
-import { assigneJobToLabourSupApi } from '../../../api/supervisor/labour.api'
+import { assignJobToLabourSupApi } from '../../../api/supervisor/jobAssignment.api'
 
-export const useAssigneJobsToLabour = () => {
+// ---------- Supervisor Assign Job To Labour Hook ----------
+export const useSupervisorAssignJobToLabour = () => {
+  // ---------- States ----------
   const [assignJobData, setAssignJobData] = useState({
     jobDescription: '',
     jobDate: '',
@@ -16,7 +18,7 @@ export const useAssigneJobsToLabour = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  /* ================= HANDLE CHANGE ================= */
+  // ---------- Handle Input Change ----------
   const handleChange = useCallback(e => {
     const { name, value } = e.target
 
@@ -26,7 +28,7 @@ export const useAssigneJobsToLabour = () => {
     }))
   }, [])
 
-  /* ================= SET IDS ================= */
+  // ---------- Set Labour & Project IDs ----------
   const setIds = useCallback((labourId, projectId) => {
     setAssignJobData(prev => ({
       ...prev,
@@ -35,13 +37,14 @@ export const useAssigneJobsToLabour = () => {
     }))
   }, [])
 
-  /* ================= ASSIGN JOB ================= */
+  // ---------- Assign Job ----------
   const handleAssignJob = async () => {
     setErrorMessage(null)
 
+    // ---------- Validation ----------
     const error = validateAssignJob(assignJobData)
+
     if (error) {
-      console.log('ffffff', error)
       setErrorMessage(error)
       return
     }
@@ -57,8 +60,9 @@ export const useAssigneJobsToLabour = () => {
         jobStartTime: assignJobData.jobStartTime,
         jobEndTime: assignJobData.jobEndTime
       }
-      
-      await assigneJobToLabourSupApi(payload)
+
+      await assignJobToLabourSupApi(payload)
+
       showSuccess('Job assigned to labour successfully')
 
       setAssignJobData(prev => ({
@@ -69,7 +73,6 @@ export const useAssigneJobsToLabour = () => {
         jobEndTime: ''
       }))
     } catch (error) {
-      console.log(error)
       setErrorMessage(
         error?.response?.data?.message || 'Failed to assign job to labour'
       )
@@ -78,6 +81,7 @@ export const useAssigneJobsToLabour = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     assignJobData,
     setAssignJobData,

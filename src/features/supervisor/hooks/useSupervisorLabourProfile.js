@@ -1,20 +1,22 @@
 import { useState } from 'react'
-import { getLabourProfileSupApi } from '../../../api/supervisor/labour.api'
+import { fetchLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
 import { validateLabourProfile } from '../validations/LabourProfile.validation'
-import { updateLabourProfileSupApi } from '../../../api/supervisor/labour.api'
+import { updateLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
 import { showSuccess } from '../../../utils/toast'
-import { delLabourProfileSupApi } from '../../../api/supervisor/labour.api'
+import { deleteLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
 
-export const useEditLabourProfile = () => {
+// ---------- Supervisor Labour Profile Hook ----------
+export const useSupervisorLabourProfile = () => {
+  // ---------- States ----------
   const [isUpdating, setIsUpdating] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [updateError, setUpdateError] = useState(null)
   const [searchValue, setSearchValue] = useState('')
   const [searchedLabour, setSearchedLabour] = useState(null)
-
   const [isInlineEdit, setIsInlineEdit] = useState(false)
   const [editData, setEditData] = useState(null)
 
+  // ---------- Search Labour ----------
   const handleSearch = async () => {
     if (!searchValue.trim()) {
       setUpdateError('Please enter Labour ID or Mobile number')
@@ -27,8 +29,7 @@ export const useEditLabourProfile = () => {
       setSearchedLabour(null)
       setIsInlineEdit(false)
 
-      const response = await getLabourProfileSupApi(searchValue)
-
+      const response = await fetchLabourProfileSupApi(searchValue)
       setSearchedLabour(response.profile)
     } catch (error) {
       setUpdateError(
@@ -39,6 +40,7 @@ export const useEditLabourProfile = () => {
     }
   }
 
+  // ---------- Save Inline Edit ----------
   const handleSaveInlineEdit = async () => {
     const error = validateLabourProfile(editData)
 
@@ -52,7 +54,9 @@ export const useEditLabourProfile = () => {
       setUpdateError(null)
 
       await updateLabourProfileSupApi(editData)
+
       showSuccess('Changes saved successfully')
+
       setSearchedLabour(editData)
       setIsInlineEdit(false)
       setEditData(null)
@@ -65,6 +69,7 @@ export const useEditLabourProfile = () => {
     }
   }
 
+  // ---------- Delete Labour Profile ----------
   const handleDeleteProfile = async labourId => {
     const id = labourId?.trim()
     if (!id) return
@@ -79,15 +84,15 @@ export const useEditLabourProfile = () => {
       setIsDeleting(true)
       setUpdateError(null)
 
-      await delLabourProfileSupApi(id)
+      await deleteLabourProfileSupApi(id)
 
       showSuccess('Labour profile deleted successfully')
 
       setSearchedLabour(null)
       setIsInlineEdit(false)
       setEditData(null)
+
       searchValue('')
-      
     } catch (error) {
       setUpdateError(
         error?.response?.data?.message || 'Failed to delete labour profile'
@@ -97,6 +102,7 @@ export const useEditLabourProfile = () => {
     }
   }
 
+  // ---------- Hook Return ----------
   return {
     isUpdating,
     updateError,

@@ -1,5 +1,5 @@
 import AdminNavbar from "../../../layouts/navbar/AdminNavbar";
-import { useAssigneProjects } from "../hooks/useAssigneProjects";
+import { useAdminProjectAssignment } from "../hooks/useAdminProjectAssignment";
 
 function AssignProjects() {
   const {
@@ -14,7 +14,7 @@ function AssignProjects() {
     handleSubmit,
     isLocked,
     resetForm,
-  } = useAssigneProjects();
+  } = useAdminProjectAssignment();
 
   return (
     <>

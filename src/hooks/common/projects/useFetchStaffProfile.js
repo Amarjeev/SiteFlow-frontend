@@ -1,18 +1,20 @@
-import { fetchEngProfileApi } from '../../../api/engineer/engProfile.api'
+import { fetchStaffProfileApi } from '../../../api/staff/staffProfile.api'
 import { useEffect, useState } from 'react'
 
-export const useFetchEngProfile = () => {
+// ---------- Fetch Staff Profile Hook ----------
+export const useFetchStaffProfile = () => {
+  // ---------- States ----------
   const [engineerProfile, setEngineerProfile] = useState(null)
   const [fetchProfileError, setFetchProfileError] = useState(null)
   const [fetchLoadingProfile, setFetchLoadingProfile] = useState(false)
 
+  // ---------- Fetch Profile ----------
   const handleFetchProfile = async () => {
     setFetchLoadingProfile(true)
     setFetchProfileError(null)
 
     try {
-      const response = await fetchEngProfileApi()
-
+      const response = await fetchStaffProfileApi()
       setEngineerProfile(response.profile)
     } catch (error) {
       setFetchProfileError(
@@ -23,10 +25,12 @@ export const useFetchEngProfile = () => {
     }
   }
 
+  // ---------- Auto Fetch On Mount ----------
   useEffect(() => {
     handleFetchProfile()
   }, [])
 
+  // ---------- Hook Return ----------
   return {
     engineerProfile,
     fetchLoadingProfile,
