@@ -1,80 +1,49 @@
-import React, { useState } from "react";
 import SupervisorNavbar from "../../../layouts/navbar/SupervisorNavbar";
+import { useVerifyProjectAndLabour } from "../hooks/useVerifyProjectAndLabour";
+import { useAssigneJobsToLabour } from "../hooks/useAssigneJobsToLabour";
+import { useEffect } from "react";
 
 function AssigneJobsToLabour() {
-  const [projectId, setProjectId] = useState("");
-  const [labourSearch, setLabourSearch] = useState("");
-  const [project, setProject] = useState(null);
-  const [labour, setLabour] = useState(null);
-  const [error, setError] = useState("");
+  const {
+    projectId,
+    setProjectId,
+    labourId,
+    setLabourId,
+    project,
+    labour,
+    verifyError,
+    loadingVerify,
+    handleVerify,
+    handleClear,
+  } = useVerifyProjectAndLabour();
 
-  /* ================= ASSIGN JOB STATES ================= */
-  const [jobDescription, setJobDescription] = useState("");
-  const [jobDate, setJobDate] = useState("");
-  const [jobStartTime, setJobStartTime] = useState("");
-  const [jobEndTime, setJobEndTime] = useState("");
+  const {
+    assignJobData,
+    errorMessage,
+    loading,
+    handleChange,
+    handleAssignJob,
+    setIds,
+  } = useAssigneJobsToLabour();
+
+  useEffect(() => {
+    if (project && labour) {
+      setIds(labour.labourId, project.projectId);
+    }
+  }, [project, labour, setIds]);
+
+  const formatDate = (date) => {
+    if (!date) return "—";
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   /* ================= COMMON INPUT CLASS ================= */
   const inputClass =
     "w-full bg-white text-black placeholder:text-gray-500 border border-neutral-700 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40";
-
-  /* ================= MOCK CHECK HANDLER ================= */
-  const handleCheck = () => {
-    setError("");
-    setProject(null);
-    setLabour(null);
-
-    if (!projectId.trim() || !labourSearch.trim()) {
-      setError("Project ID and Labour ID or Mobile number are required");
-      return;
-    }
-
-    setProject({
-      projectId: "PROJ2025122700001",
-      projectName: "Kozhikode Smart Drainage Upgrade",
-      siteLocation: "Kozhikode, Kerala",
-      projectStatus: "ongoing",
-    });
-
-    setLabour({
-      labourId: "LAB2025001",
-      name: "Ramesh Kumar",
-      mobile: "7034884827",
-      status: "disabled",
-    });
-  };
-
-  /* ================= ASSIGN JOB HANDLER ================= */
-  const handleAssignJob = () => {
-    setError("");
-
-    if (!jobDescription.trim()) {
-      setError("Job description is required");
-      return;
-    }
-
-    if (!jobDate || !jobStartTime || !jobEndTime) {
-      setError("Job date and time are required");
-      return;
-    }
-
-    if (jobEndTime <= jobStartTime) {
-      setError("Job end time must be after start time");
-      return;
-    }
-
-    const payload = {
-      labourId: labour.labourId,
-      projectId: project.projectId,
-      jobDescription: jobDescription.trim(),
-      jobDate: new Date(jobDate),
-      jobStartTime,
-      jobEndTime,
-      assignedBy: "SUP1001",
-    };
-
-    console.log("Assign Job Payload:", payload);
-  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -85,34 +54,72 @@ function AssigneJobsToLabour() {
           🛠 Assign Job to Labour
         </h1>
 
-        {/* ================= SEARCH ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-          <input
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            placeholder="Enter Project ID"
-            className={inputClass}
-          />
-          <input
-            value={labourSearch}
-            onChange={(e) => setLabourSearch(e.target.value)}
-            placeholder="Enter Labour ID or Mobile"
-            className={inputClass}
-          />
-          <button
-            onClick={handleCheck}
-            className="rounded-md bg-white text-black font-medium py-2 hover:bg-gray-200"
-          >
-            Check
-          </button>
-        </div>
-
         {/* ================= ERROR ================= */}
-        {error && (
-          <div className="mt-4 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-4 py-2">
-            {error}
+        {verifyError && (
+          <div className="mb-3 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-4 py-2">
+            {verifyError}
           </div>
         )}
+
+        {/* ================= SEARCH ================= */}
+        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            {/* Project ID */}
+            <input
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+              placeholder="Enter Project ID"
+              className={inputClass}
+            />
+
+            {/* Labour ID */}
+            <input
+              value={labourId}
+              onChange={(e) => setLabourId(e.target.value)}
+              placeholder="Enter Labour ID or Mobile"
+              className={inputClass}
+            />
+
+            {/* Buttons */}
+            <div className="flex gap-3 md:justify-end">
+              <button
+                onClick={handleVerify}
+                disabled={loadingVerify}
+                className="
+          rounded-md bg-white text-black font-medium
+           h-10.5 px-6
+          transition-all duration-200
+          hover:bg-gray-200
+          active:scale-95
+          disabled:opacity-60 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+        "
+              >
+                {loadingVerify ? (
+                  <>
+                    <span className="h-4 w-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    Checking...
+                  </>
+                ) : (
+                  "Check"
+                )}
+              </button>
+
+              <button
+                onClick={handleClear}
+                className="
+          rounded-md border border-neutral-600 text-neutral-300
+            h-10.5 px-6
+          transition-all duration-200
+          hover:bg-neutral-800 hover:text-white
+          active:scale-95
+        "
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* ================= DETAILS ================= */}
         {(project || labour) && (
@@ -125,7 +132,19 @@ function AssigneJobsToLabour() {
                 <Detail label="Project ID" value={project.projectId} />
                 <Detail label="Project Name" value={project.projectName} />
                 <Detail label="Location" value={project.siteLocation} />
-                <Detail label="Status" value={project.projectStatus} badge />
+                <Detail
+                  label="Project Status"
+                  value={project.projectStatus}
+                  badge
+                />
+                <Detail
+                  label="Project StartDate"
+                  value={formatDate(project.startDate)}
+                />
+                <Detail
+                  label="Project EndDate"
+                  value={formatDate(project.endDate)}
+                />
               </div>
             )}
 
@@ -135,9 +154,8 @@ function AssigneJobsToLabour() {
                   👷 Labour Profile
                 </h2>
                 <Detail label="Labour ID" value={labour.labourId} />
-                <Detail label="Name" value={labour.name} />
+                <Detail label="Name" value={labour.username} />
                 <Detail label="Mobile" value={labour.mobile} />
-                <Detail label="Status" value={labour.status} badge />
               </div>
             )}
           </div>
@@ -150,6 +168,13 @@ function AssigneJobsToLabour() {
               📝 Assign Job
             </h2>
 
+            {/* ================= ERROR ================= */}
+            {errorMessage && (
+              <div className="mb-3 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-4 py-2">
+                {errorMessage}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-1 text-sm text-blue-300">
@@ -157,8 +182,9 @@ function AssigneJobsToLabour() {
                 </label>
                 <input
                   type="date"
-                  value={jobDate}
-                  onChange={(e) => setJobDate(e.target.value)}
+                  name="jobDate"
+                  value={assignJobData.jobDate}
+                  onChange={handleChange}
                   className={inputClass}
                 />
               </div>
@@ -169,8 +195,9 @@ function AssigneJobsToLabour() {
                 </label>
                 <input
                   type="time"
-                  value={jobStartTime}
-                  onChange={(e) => setJobStartTime(e.target.value)}
+                  name="jobStartTime"
+                  value={assignJobData.jobStartTime}
+                  onChange={handleChange}
                   className={inputClass}
                 />
               </div>
@@ -181,8 +208,9 @@ function AssigneJobsToLabour() {
                 </label>
                 <input
                   type="time"
-                  value={jobEndTime}
-                  onChange={(e) => setJobEndTime(e.target.value)}
+                  name="jobEndTime"
+                  value={assignJobData.jobEndTime}
+                  onChange={handleChange}
                   className={inputClass}
                 />
               </div>
@@ -193,8 +221,9 @@ function AssigneJobsToLabour() {
                 </label>
                 <textarea
                   rows={3}
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
+                  name="jobDescription"
+                  value={assignJobData.jobDescription}
+                  onChange={handleChange}
                   placeholder="Describe the job to be assigned"
                   className={`${inputClass} resize-none`}
                 />
@@ -203,15 +232,22 @@ function AssigneJobsToLabour() {
 
             <button
               onClick={handleAssignJob}
-              disabled={labour.status === "disabled"}
-              className={`mt-4 px-6 py-2 rounded-md font-medium
-                ${
-                  labour.status === "disabled"
-                    ? "bg-slate-700 text-slate-400 cursor-not-allowed"
-                    : "bg-blue-600 text-white hover:bg-blue-500"
-                }`}
+              disabled={loading}
+              className={`
+        mt-4 px-6 py-2 rounded-md font-medium
+        flex items-center justify-center gap-2
+        transition-all duration-300 ease-in-out transform
+        ${
+          loading
+            ? "bg-slate-700 text-slate-400 cursor-not-allowed scale-95"
+            : "bg-blue-600 text-white hover:bg-blue-500 hover:-translate-y-0.5 hover:shadow-lg active:scale-95"
+        }
+      `}
             >
-              Assign Job
+              {loading && (
+                <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              )}
+              {loading ? "Assigning..." : "Assign Job"}
             </button>
           </div>
         )}
@@ -222,14 +258,21 @@ function AssigneJobsToLabour() {
 
 /* ================= DETAIL COMPONENT ================= */
 const Detail = ({ label, value, badge }) => (
-  <div className="flex justify-between items-center text-sm mb-3">
-    <span className="text-gray-400">{label}</span>
+  <div className="flex items-start justify-between gap-4 text-sm mb-3">
+    <span className="text-gray-400 whitespace-nowrap">{label}</span>
+
     {badge ? (
-      <span className="px-3 py-1 rounded-full text-xs bg-neutral-800 border border-neutral-700">
+      <span
+        className="px-3 py-1 rounded-full text-xs font-medium
+        bg-emerald-950 text-emerald-300
+        border border-emerald-800"
+      >
         {value}
       </span>
     ) : (
-      <span className="font-medium">{value}</span>
+      <span className="font-medium text-right text-gray-200 max-w-[65%]">
+        {value}
+      </span>
     )}
   </div>
 );

@@ -23,3 +23,13 @@ export const delLabourProfileSupApi = async payload => {
   })
   return response.data.success === true
 }
+
+export const verifyProjectAndLabourSupApi = async payload => {
+  const response = await api.post('/supervisor/jobs/verify-assignment', payload)
+  return response.data
+}
+
+export const assigneJobToLabourSupApi = async payload => {
+  const response = await api.post('/supervisor/jobs/assign-labour', payload)
+    return response.data.success === true
+}
