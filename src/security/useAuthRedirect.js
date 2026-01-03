@@ -36,7 +36,7 @@ export const useAuthRedirect = () => {
             break
 
           case 'supervisor':
-            navigate('/supervisor/home', { replace: true })
+            navigate('/supervisor/labours', { replace: true })
             break
 
           case 'engineer':

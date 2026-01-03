@@ -35,7 +35,7 @@ function LaboursProfile() {
             type="text"
             value={labourId}
             onChange={(e) => setLabourId(e.target.value.trim())}
-            placeholder="Enter Labour ID"
+            placeholder="Enter Labour ID or Mobile Number"
             className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10"
           />
           <button

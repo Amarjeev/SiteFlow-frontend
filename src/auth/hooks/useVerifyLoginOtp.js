@@ -50,7 +50,9 @@ export const useVerifyLoginOtp = () => {
       sessionStorage.removeItem('loginStatus')
 
       if (userRole === 'engineer') {
-        navigate('/engineer/my-projects')
+        navigate('/engineer/my-projects', { replace: true })
+      } else if (userRole === 'supervisor') {
+        navigate('/supervisor/labours', { replace: true })
       }
     } catch (error) {
       setErrorMessage(

@@ -20,6 +20,10 @@ import LoginOtpVerifyForm from "./auth/components/LoginOtpVerifyForm.jsx";
 import MyProjects from "./features/engineer/pages/MyProjects.jsx";
 import ProjectReports from "./features/engineer/components/ProjectReports.jsx";
 import ProfileDeatiles from "./features/engineer/components/ProfileDeatiles.jsx";
+import CreateLabourProfile from "./features/supervisor/components/CreateLabourProfile.jsx";
+import AssigneJobsToLabour from "./features/supervisor/components/AssigneJobsToLabour.jsx";
+import SupervisorProjects from "./features/supervisor/pages/SupervisorProjectsPage.jsx";
+import ProfileDeatilesSup from "./features/supervisor/components/ProfileDeatilesSup.jsx";
 
 function App() {
   useAuthRedirect();
@@ -41,9 +45,15 @@ function App() {
       <Route path="/staff/login" element={<LoginStaffPage />} />
 
       {/* ENGINEER */}
-       <Route path="/engineer/my-projects" element={<MyProjects />} />
-       <Route path="/engineer/project-reports" element={<ProjectReports />} />
-        <Route path="/engineer/profile" element={<ProfileDeatiles />} />
+      <Route path="/engineer/my-projects" element={<MyProjects />} />
+      <Route path="/engineer/project-reports" element={<ProjectReports />} />
+      <Route path="/engineer/profile" element={<ProfileDeatiles />} />
+
+      {/* SUPERVISOR */}
+      <Route path="/supervisor/labours" element={<CreateLabourProfile />} />
+      <Route path="/supervisor/assign-jobs" element={<AssigneJobsToLabour />} />
+      <Route path="/supervisor/projects" element={<SupervisorProjects />} />
+      <Route path="/supervisor/profile" element={<ProfileDeatilesSup />} />
 
       <Route path="/admin/create-project" element={<CreateProjectPage />} />
       <Route path="/admin/projects" element={<ProjectsPage />} />

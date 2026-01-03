@@ -28,8 +28,8 @@ function CreateStaffProfile() {
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               required
               className="mt-1 w-full rounded-md border px-3 py-2 text-sm"

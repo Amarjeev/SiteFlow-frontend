@@ -8,7 +8,7 @@ export const useCreateStaffProfile = () => {
   const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     mobile: '',
     role: '',
     email: ''
@@ -35,7 +35,7 @@ export const useCreateStaffProfile = () => {
         showSuccess('Project created successfully')
         setErrorMessage(null)
         setFormData({
-          name: '',
+          username: '',
           mobile: '',
           role: '',
           email: ''
