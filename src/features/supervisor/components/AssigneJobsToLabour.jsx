@@ -2,6 +2,7 @@ import SupervisorNavbar from "../../../layouts/navbar/SupervisorNavbar";
 import { useSupervisorVerifyProjectAndLabour } from "../hooks/useSupervisorVerifyProjectAndLabour";
 import { useSupervisorAssignJobToLabour } from "../hooks/useSupervisorAssignJobToLabour";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 function AssigneJobsToLabour() {
   const {
@@ -63,6 +64,20 @@ function AssigneJobsToLabour() {
 
         {/* ================= SEARCH ================= */}
         <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+          {/* EDIT ASSIGNED JOB BUTTON */}
+          <Link
+            to={"/supervisor/job-assignments/edit"}
+            className="
+      px-2 py-1.5 text-sm rounded-md
+      border border-yellow-500/60 text-yellow-300
+      hover:bg-yellow-500/10
+      transition-all duration-200
+      active:scale-95
+    "
+          >
+            ✏️ Edit Assigned Job
+          </Link>
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             {/* Project ID */}
             <input
@@ -120,7 +135,6 @@ function AssigneJobsToLabour() {
             </div>
           </div>
         </div>
-
         {/* ================= DETAILS ================= */}
         {(project || labour) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">

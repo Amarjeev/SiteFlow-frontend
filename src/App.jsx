@@ -24,6 +24,7 @@ import CreateLabourProfile from "./features/supervisor/components/CreateLabourPr
 import AssigneJobsToLabour from "./features/supervisor/components/AssigneJobsToLabour.jsx";
 import SupervisorProjects from "./features/supervisor/pages/SupervisorProjectsPage.jsx";
 import ProfileDeatilesSup from "./features/supervisor/components/ProfileDeatilesSup.jsx";
+import EditJobAssignment from "./features/supervisor/components/EditJobAssignment.jsx";
 
 function App() {
   useAuthRedirect();
@@ -54,6 +55,7 @@ function App() {
       <Route path="/supervisor/assign-jobs" element={<AssigneJobsToLabour />} />
       <Route path="/supervisor/projects" element={<SupervisorProjects />} />
       <Route path="/supervisor/profile" element={<ProfileDeatilesSup />} />
+      <Route path="/supervisor/job-assignments/edit" element={<EditJobAssignment />} />
 
       <Route path="/admin/create-project" element={<CreateProjectPage />} />
       <Route path="/admin/projects" element={<ProjectsPage />} />
