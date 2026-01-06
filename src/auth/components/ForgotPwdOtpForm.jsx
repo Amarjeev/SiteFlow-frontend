@@ -1,6 +1,7 @@
 import Navbar from "../../components/common/Navbar";
 import { useForgotPwdVerifyOtp } from "../hooks/useForgotPwdVerifyOtp";
-import { useForgotPwdResendOtp } from "../hooks/useForgotPwdResendOtp";
+import { useForgotPwdResendOtp } from "../hooks/useForgotPwdReSendOtp";
+
 
 function ForgotPwdOtpForm() {
   const { setOtp, otp, email, errorMessage, handleVerifyOtp, loading } =
