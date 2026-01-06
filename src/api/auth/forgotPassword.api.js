@@ -5,7 +5,7 @@ import { show429Error } from '../../utils/show429Error'
 export const forgotPwdRequestOtpApi = async payload => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}password-reset/request-otp`,
+      `${API_BASE_URL}/password-reset/request-otp`,
       payload
     )
 
@@ -21,7 +21,7 @@ export const forgotPwdRequestOtpApi = async payload => {
 export const forgotPwdVerifyOtpApi = async payload => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}password-reset/verify-otp`,
+      `${API_BASE_URL}/password-reset/verify-otp`,
       payload
     )
 
@@ -37,7 +37,7 @@ export const forgotPwdVerifyOtpApi = async payload => {
 export const forgotPwdCreatePwdApi = async payload => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}password-reset/reset-password`,
+      `${API_BASE_URL}/password-reset/reset-password`,
       payload
     )
 

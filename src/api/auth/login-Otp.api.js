@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const verifyLoginOtpApi = async payload => {
   const response = await axios.post(
-    `${API_BASE_URL}auth/login-otp/verify-otp`,
+    `${API_BASE_URL}/auth/login-otp/verify-otp`,
     payload,
     { withCredentials: true }
   )
@@ -14,7 +14,7 @@ export const verifyLoginOtpApi = async payload => {
 
 export const resendLoginOtpApi = async payload => {
   const response = await axios.post(
-    `${API_BASE_URL}auth/login-otp/resend-otp`,
+    `${API_BASE_URL}/auth/login-otp/resend-otp`,
     payload,
     { withCredentials: true }
   )

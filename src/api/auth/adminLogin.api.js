@@ -4,7 +4,7 @@ import { show429Error } from '../../utils/show429Error'
 
 export const adminLoginApi = async payload => {
   try {
-    const response = await axios.post(`${API_BASE_URL}admin/login`, payload, {
+    const response = await axios.post(`${API_BASE_URL}/admin/login`, payload, {
       withCredentials: true
     })
 
