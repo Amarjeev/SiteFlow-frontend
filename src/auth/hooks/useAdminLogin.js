@@ -42,7 +42,6 @@ export const useAdminLogin = () => {
       setPassword('')
       setErrorMessage('')
     } catch (error) {
-      console.log('login error :', error)
       setErrorMessage(error.message || 'Login failed')
     } finally {
       setLoading(false)

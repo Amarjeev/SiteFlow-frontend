@@ -61,7 +61,6 @@ export const useSupervisorFetchAssignedJobs = () => {
       setJobs(response?.jobs || [])
       setLabourProfile(response?.labourProfile)
     } catch (error) {
-      console.log(error.response)
       setErrorMessage(
         error?.response?.data?.message || 'Failed to fetch assigned jobs'
       )

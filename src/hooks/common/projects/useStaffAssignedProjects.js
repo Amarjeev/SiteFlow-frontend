@@ -58,7 +58,6 @@ export const useStaffAssignedProjects = () => {
       const response = await fetchStaffAssignedProjectApi(activeProjectId)
       setSelectedProjectDetails(response?.project)
     } catch (error) {
-      console.log(error.response)
       setDetailsError(
         error?.response?.data?.message || 'Failed to fetch project details'
       )

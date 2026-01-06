@@ -29,7 +29,6 @@ export const useAdminLabourAccessControl = () => {
       const res = await getLabourProfileApi(payload)
       setLabour(res)
     } catch (error) {
-      console.log(error)
       setErrorMessage(
         error.response?.data?.message || 'Failed to fetch labour profile.'
       )

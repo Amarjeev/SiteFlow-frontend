@@ -116,7 +116,6 @@ export const useUpdateStaffProfile = (engineerProfile, refetchProfile) => {
 
       setShowPassword(false)
     } catch (error) {
-      console.log(error.response)
       setUpdateError(error?.response?.data?.message || 'Something went wrong')
     } finally {
       setPwdLoadingProfile(false)
