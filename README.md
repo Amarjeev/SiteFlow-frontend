@@ -1,16 +1,90 @@
-# React + Vite
+# SiteFlow – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SiteFlow is a role-based project management and workforce coordination platform.  
+This repository contains the **frontend application** built using **React + Vite**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- React (Vite)
+- JavaScript / TypeScript
+- React Router
+- Axios
+- Tailwind CSS
+- JWT-based authentication
+- Session Storage for state persistence
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 👥 User Roles
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The application supports **4 user roles**:
+
+1. **Admin**
+2. **Supervisor**
+3. **Engineer**
+4. **Labour**
+
+Each role has its own access level and dashboard.
+
+---
+
+## 🔐 Authentication & Authorization
+
+- Admin login using **Google OAuth**
+- Email-based **OTP verification**
+- JWT authentication with **Access Token & Refresh Token**
+- Secure route protection based on roles
+- Session-based state persistence
+
+---
+
+## 🧩 Core Features
+
+### 👑 Admin
+- Google login authentication
+- Create & manage **Supervisor** and **Engineer** profiles
+- Create and manage projects
+- Assign projects to Engineers & Supervisors
+- View project reports and daily progress
+- Track project status and updates
+
+### 🧑‍💼 Supervisor
+- View assigned projects
+- Assign jobs to Labours
+- Track job progress
+- View labour work details
+
+### 🧑‍🔧 Engineer
+- View assigned projects
+- Update project status
+- Submit daily project reports
+- Track project progress
+
+### 👷 Labour
+- View assigned jobs
+- Access job details and schedules
+
+---
+
+## 📂 Project Structure
+
+src/
+├── api/ # API calls
+├── auth/ # Authentication logic
+├── components/ # Reusable components
+├── hooks/ # Custom React hooks
+├── layouts/ # Layout components
+├── pages/ # Page-level components
+├── routes/ # Protected routes
+├── utils/ # Utility functions
+└── App.jsx
+
+🌐 Deployment
+
+Deployed using Vercel
+
+Fully compatible with HTTPS & secure cookies
+
+Url: siteflow-xs55.vercel.app
