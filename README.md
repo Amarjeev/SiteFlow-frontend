@@ -68,19 +68,6 @@ Each role has its own access level and dashboard.
 
 ---
 
-## 📂 Project Structure
-
-src/
-├── api/ # API calls
-├── auth/ # Authentication logic
-├── components/ # Reusable components
-├── hooks/ # Custom React hooks
-├── layouts/ # Layout components
-├── pages/ # Page-level components
-├── routes/ # Protected routes
-├── utils/ # Utility functions
-└── App.jsx
-
 🌐 Deployment
 
 Deployed using Vercel
