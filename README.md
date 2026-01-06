@@ -67,11 +67,11 @@ Each role has its own access level and dashboard.
 - Access job details and schedules
 
 ---
-
 🌐 Deployment
 
 Deployed using Vercel
 
-Fully compatible with HTTPS & secure cookies
+Fully compatible with HTTPS and secure cookies
 
-Url: siteflow-xs55.vercel.app
+Live URL:
+👉 https://siteflow-xs55.vercel.app
