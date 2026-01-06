@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useEngineerProjectUpdate } from "../hooks/useEngineerProjectUpdate";
+import { useEngineerCreateProjectProgress } from "../hooks/useEngineerProjectProgress";
 
 function ProjectDetails({ projectState }) {
   const { selectedProjectDetails, detailsLoading, detailsError } = projectState;
@@ -26,7 +26,7 @@ function ProjectDetails({ projectState }) {
     handleSubmit,
     errorMessage,
     loading,
-  } = useEngineerProjectUpdate();
+  } = useEngineerCreateProjectProgress();
 
   /* ================= SET PROJECT ID ================= */
 

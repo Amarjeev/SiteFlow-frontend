@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { updateEngineerProjectReportApi } from '../../../api/engineer/projectReports.api'
+import {createDailyProjectProgressApi} from '../../../api/engineer/projectReports.api'
 import { showSuccess } from '../../../utils/toast'
 import { projectUpdateEngValidation } from '../validations/ProjectUpdate.validation'
 
 // ---------- Engineer Project Update Hook ----------
-export const useEngineerProjectUpdate = () => {
+export const useEngineerCreateProjectProgress = () => {
   // ---------- States ----------
   const [updateText, setUpdateText] = useState('')
   const [newStatus, setNewStatus] = useState('')
@@ -46,7 +46,7 @@ export const useEngineerProjectUpdate = () => {
       setLoading(true)
       setErrorMessage(null)
 
-      const success = await updateEngineerProjectReportApi(payload)
+      const success = await createDailyProjectProgressApi(payload)
 
       if (success) {
         showSuccess('Project update submitted successfully')

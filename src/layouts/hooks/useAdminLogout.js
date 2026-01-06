@@ -10,9 +10,7 @@ export const useAdminLogout = () => {
       const res = await adminLogoutApi()
 
       if (res) {
-        sessionStorage.removeItem('userEmail')
-        sessionStorage.removeItem('userName')
-        sessionStorage.removeItem('userRole')
+        sessionStorage.clear()
         navigate('/', { replace: true })
       }
     } catch (error) {

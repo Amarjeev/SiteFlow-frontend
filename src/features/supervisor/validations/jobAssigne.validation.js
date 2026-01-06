@@ -7,6 +7,7 @@ export const validateAssignJob = payload => {
     labourId,
     projectId
   } = payload
+
   /* ================= LABOUR ID ================= */
   if (!labourId?.trim()) {
     return 'Please enter the Labour ID'

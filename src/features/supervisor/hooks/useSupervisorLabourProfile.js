@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
 import { validateLabourProfile } from '../validations/LabourProfile.validation'
 import { updateLabourProfileSupApi } from '../../../api/supervisor/labourProfile.api'
@@ -15,6 +15,13 @@ export const useSupervisorLabourProfile = () => {
   const [searchedLabour, setSearchedLabour] = useState(null)
   const [isInlineEdit, setIsInlineEdit] = useState(false)
   const [editData, setEditData] = useState(null)
+
+  // Clear searched labour when search value changes
+  useEffect(() => {
+    if (searchValue.trim()) {
+      setSearchedLabour(null)
+    }
+  }, [searchValue])
 
   // ---------- Search Labour ----------
   const handleSearch = async () => {

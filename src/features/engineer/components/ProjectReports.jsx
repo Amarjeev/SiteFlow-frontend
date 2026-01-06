@@ -1,5 +1,5 @@
 import StaffNavbar from "../../../layouts/navbar/EngineerNavbar";
-import {useEngineerProjectUpdate } from "../hooks/useEngineerProjectUpdate";
+import { useEngineerProjectReports } from "../hooks/useEngineerProjectReports";
 
 /* ================= MAIN COMPONENT ================= */
 
@@ -25,8 +25,8 @@ function ProjectReports() {
     editLoading,
     editError,
     deleteLoading,
-    handleDelete
-  } = useEngineerProjectUpdate();
+    handleDelete,
+  } = useEngineerProjectReports();
 
   return (
     <>

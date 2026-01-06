@@ -133,7 +133,7 @@ function CreateLabourProfile() {
             <div className="mt-6 bg-black border border-neutral-800 rounded-xl p-5 space-y-3 text-sm">
               <p>
                 <span className="text-gray-400">Labour ID:</span>{" "}
-                {searchedLabour.labourId}
+                {searchedLabour.userId}
               </p>
 
               <p>

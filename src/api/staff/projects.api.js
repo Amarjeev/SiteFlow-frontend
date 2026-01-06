@@ -7,7 +7,7 @@ export const fetchStaffAssignedProjectsApi = async params => {
 }
 
 // ---------- Fetch Staff Assigned Project By ID ----------
-export const fetchStaffAssignedProjectApi = async projectId => {
+export const fetchStaffAssignedProjectByApi = async projectId => {
   const response = await api.get(`/staff/assigned-projects/${projectId}`)
   return response.data
 }

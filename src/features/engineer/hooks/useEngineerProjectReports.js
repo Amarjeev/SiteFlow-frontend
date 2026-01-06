@@ -5,7 +5,7 @@ import {
   fetchEngineerProjectReportsApi
 } from '../../../api/engineer/projectReports.api'
 import { showSuccess } from '../../../utils/toast'
-import { fetchProjectbyIdApi } from '../../../api/admin/Projects.api'
+import { fetchStaffAssignedProjectByApi } from '../../../api/staff/projects.api'
 
 // ---------- Engineer Project Reports Hook ----------
 export const useEngineerProjectReports = () => {
@@ -41,7 +41,7 @@ export const useEngineerProjectReports = () => {
 
     try {
       const [project, report] = await Promise.all([
-        fetchProjectbyIdApi(projectId),
+        fetchStaffAssignedProjectByApi(projectId),
         fetchEngineerProjectReportsApi(projectId, filterDate)
       ])
 

@@ -29,7 +29,7 @@ function AssigneJobsToLabour() {
 
   useEffect(() => {
     if (project && labour) {
-      setIds(labour.labourId, project.projectId);
+      setIds(labour.userId, project.projectId);
     }
   }, [project, labour, setIds]);
 
@@ -167,7 +167,7 @@ function AssigneJobsToLabour() {
                 <h2 className="text-lg font-semibold mb-4">
                   👷 Labour Profile
                 </h2>
-                <Detail label="Labour ID" value={labour.labourId} />
+                <Detail label="Labour ID" value={labour.userId} />
                 <Detail label="Name" value={labour.username} />
                 <Detail label="Mobile" value={labour.mobile} />
               </div>

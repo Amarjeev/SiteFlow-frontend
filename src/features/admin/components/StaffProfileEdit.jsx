@@ -73,8 +73,8 @@ function StaffProfileEdit() {
               <label className="text-sm font-medium">Name</label>
               <input
                 type="text"
-                name="name"
-                value={editableStaff.name}
+                name="username"
+                value={editableStaff.username}
                 readOnly={!isEditing}
                 onChange={handleChange}
                 className={`mt-1 w-full rounded-md border px-3 py-2 text-sm ${

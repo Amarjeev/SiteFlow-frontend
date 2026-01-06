@@ -1,20 +1,13 @@
 import { useEffect } from "react";
-import { useEngineerProjectUpdate } from "../../engineer/hooks/useEngineerProjectUpdate";
+import { useEngineerCreateProjectProgress } from "../../engineer/hooks/useEngineerProjectProgress";
+import { formatDate } from "../../../utils/formatDate";
+
 
 function ProjectDetailsSup({ projectState }) {
   const { selectedProjectDetails, detailsLoading, detailsError } = projectState;
   const project = selectedProjectDetails;
 
-  const formatDate = (date) => {
-    if (!date) return "—";
-    return new Date(date).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const { setProjectId, setNewStatus } = useEngineerProjectUpdate();
+  const { setProjectId, setNewStatus } = useEngineerCreateProjectProgress();
 
   /* ================= SET PROJECT ID ================= */
 
