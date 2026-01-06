@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  fetchProjectbyIdApi,
-  updateProjectApi,
-  deleteProjectApi
-} from '../../../api/admin/projects.apiiii'
+// import {
+//   fetchProjectbyIdApi,
+//   updateProjectApi,
+//   deleteProjectApi
+// } from '../../../api/admin/projects.api'
+// import { fetchProjectbyIdApi } from '../../../api/admin/pProjects.api'
+import { fetchProjectbyIdApi } from '../../../api/admin/Pprojects.api'
 import { showSuccess } from '../../../utils/toast'
 import { createProjectValidation } from '../validations/createProject.validation'
 import { useParams, useNavigate } from 'react-router-dom'
